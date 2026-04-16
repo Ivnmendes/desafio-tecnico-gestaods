@@ -55,3 +55,18 @@ class TestEstoque(TestCase):
         with self.assertRaises(Exception) as context:
             Estoque(lista_produtos)
         self.assertTrue("O estoque de nenhum produto pode ser negativo!" in str(context.exception))
+
+    def test_somar_valor_estoque(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+        self.assertEqual(20.7, estoque.total_valor_estoque())
+
+    def test_somar_estoque_vazio(self):
+
+        estoque = Estoque()
+        self.assertEqual(0, estoque.total_valor_estoque())
