@@ -63,3 +63,12 @@ class Estoque():
             raise Exception("Produto não encontrado no estoque!")
         
         self._disponivel.pop(produto)
+
+    def verificar_estoque_produto(self, produto: Produto):
+
+        if produto not in self._disponivel:
+            raise Exception("Produto não encontrado no estoque!")
+        
+        quantidade_estoque = self._disponivel[produto]
+
+        return { "nome": produto.nome, "valor_individual": produto.valor, "quantidade": quantidade_estoque}

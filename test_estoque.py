@@ -200,3 +200,28 @@ class TestEstoque(TestCase):
         with self.assertRaises(Exception) as context:
             estoque.remover_produto(self.produto4)
         self.assertTrue("Produto não encontrado no estoque!" in str(context.exception))
+
+    def test_verificar_estoque_produto_existe(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        dados = estoque.verificar_estoque_produto(self.produto2)
+        self.assertEqual({ "nome": "Lápis", "valor_individual": 1.2, "quantidade": 0 }, dados)
+
+    def test_verificar_estoque_produto_inexiste(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        with self.assertRaises(Exception) as context:
+            estoque.verificar_estoque_produto(self.produto4)
+        self.assertTrue("Produto não encontrado no estoque!" in str(context.exception))
