@@ -21,6 +21,9 @@ class Produto():
         valor_normalizado = round(valor, 2)
         self._valor = valor_normalizado
 
+    def __str__(self):
+        return f"{self.nome} - R${self.valor}"
+    
     def alterar_valor(self, valor: float):
 
         if valor <= 0:

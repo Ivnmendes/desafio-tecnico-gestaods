@@ -250,3 +250,22 @@ class TestEstoque(TestCase):
         estoque.limpar_estoque()
         estoque.adicionar_produto(self.produto4, 1)
         self.assertTrue(self.produto4 in estoque.disponivel)
+
+    def test_listar_produtos_estoque(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        lista_produtos_retorno = estoque.listar_produtos_estoque()
+        self.assertEqual(lista_produtos_retorno, [self.produto1, self.produto2, self.produto3])
+
+    def test_listar_produtos_estoque_vazio(self):
+
+        estoque = Estoque()
+
+        lista_produtos_retorno = estoque.listar_produtos_estoque()
+        self.assertEqual(lista_produtos_retorno, [])
