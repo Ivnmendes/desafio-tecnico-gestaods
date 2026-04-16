@@ -138,3 +138,40 @@ class TestEstoque(TestCase):
         with self.assertRaises(Exception) as context:
             estoque.ajustar_quantidade_produto(self.produto1, -2)
         self.assertTrue("O estoque atualizado do produto não pode ser negativo!" in str(context.exception))
+
+    def test_adicionar_produto_nao_existente_estoque(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        estoque.adicionar_produto(self.produto4, 3)
+        self.assertTrue(self.produto4 in estoque.disponivel)
+
+    def test_adicionar_produto_estoque_quantidade_negativa(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        with self.assertRaises(Exception) as context:
+            estoque.adicionar_produto(self.produto4, -3)
+        self.assertTrue("O estoque do produto não pode ser negativo!" in str(context.exception))
+
+    def test_adicionar_produto_existente_estoque(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        estoque.adicionar_produto(self.produto3, 3)
+        self.assertEqual(7, estoque.disponivel[self.produto3])

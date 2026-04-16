@@ -45,3 +45,14 @@ class Estoque():
             raise Exception("O estoque atualizado do produto não pode ser negativo!")
         
         self._disponivel[produto] += qtd
+
+    def adicionar_produto(self, produto: Produto, qtd: int):
+
+        if qtd < 0:
+            raise Exception("O estoque do produto não pode ser negativo!")
+
+        if produto in self._disponivel:
+            self._disponivel[produto] += qtd
+            return
+        
+        self._disponivel[produto] = qtd
