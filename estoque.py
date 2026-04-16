@@ -75,4 +75,23 @@ class Estoque():
     
     def limpar_estoque(self) -> None: self._disponivel = {}
 
-    def listar_produtos_estoque(self) -> list[Produto]: return list(self._disponivel.keys())
+    def listar_produtos_estoque(self, min_valor = 0, max_valor = None) -> list[Produto]:
+
+        if max_valor is not None and (min_valor > max_valor):
+            raise ValueError("Filtros inválidos: O valor mínimo não pode ser maior que o valor máximo.")
+
+        if min_valor < 0:
+            raise ValueError("Filtros inválidos: O valor mínimo não pode ser negativo.")
+        
+        produtos_filtrados = []
+
+        for produto in self._disponivel.keys():
+            if produto.valor < min_valor:
+                continue
+                
+            if max_valor is not None and produto.valor > max_valor:
+                continue
+                
+            produtos_filtrados.append(produto)
+
+        return produtos_filtrados

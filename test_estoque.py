@@ -269,3 +269,30 @@ class TestEstoque(TestCase):
 
         lista_produtos_retorno = estoque.listar_produtos_estoque()
         self.assertEqual(lista_produtos_retorno, [])
+
+    def test_listar_produtos_estoque_filtro_preco(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4},
+            {self.produto4: 10}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        lista_produtos_retorno = estoque.listar_produtos_estoque(min_valor = 3.4, max_valor = 10)
+        self.assertEqual(lista_produtos_retorno, [self.produto1, self.produto3])
+
+    def test_listar_produtos_estoque_filtro_preco_filtros_invalidos(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4},
+            {self.produto4: 10}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        with self.assertRaises(Exception) as context:
+            estoque.listar_produtos_estoque(min_valor = 3.6, max_valor = 2)
+        self.assertTrue("Filtros inválidos" in str(context.exception))
