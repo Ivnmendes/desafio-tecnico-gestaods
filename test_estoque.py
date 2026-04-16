@@ -18,6 +18,10 @@ class TestEstoque(TestCase):
         nome = "Borracha",
         valor = 4.3
     )
+    produto4 = Produto(
+        nome = "Caderno",
+        valor = 20
+    )
 
     def test_deve_permitir_criar_estoque_vazio(self):
 
@@ -85,3 +89,52 @@ class TestEstoque(TestCase):
 
         estoque = Estoque()
         self.assertEqual(0, estoque.total_produtos_estoque())
+
+    def test_ajustar_quantidade_produto_estoque_adicionar(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        estoque.ajustar_quantidade_produto(self.produto1, 1)
+        self.assertEqual(2, estoque.disponivel[self.produto1])
+
+    def test_ajustar_quantidade_produto_estoque_produto_nao_existe(self):
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        with self.assertRaises(Exception) as context:
+            estoque.ajustar_quantidade_produto(self.produto4, 1)
+        self.assertTrue("Produto não disponível no estoque!" in str(context.exception))
+
+    def test_ajustar_quantidade_produto_estoque_remover(self):
+        
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        estoque.ajustar_quantidade_produto(self.produto1, -1)
+        self.assertEqual(0, estoque.disponivel[self.produto1])
+
+    def test_nao_deve_ajustar_estoque_quando_resultado_negativo(self):
+        
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+
+        with self.assertRaises(Exception) as context:
+            estoque.ajustar_quantidade_produto(self.produto1, -2)
+        self.assertTrue("O estoque atualizado do produto não pode ser negativo!" in str(context.exception))

@@ -23,13 +23,25 @@ class Estoque():
                 self._disponivel[produto] = self._disponivel.get(produto, 0) + quantidade
 
     def total_valor_estoque(self):
+
         if not self.disponivel:
             return 0
 
         return sum(prod.valor * qtd for prod, qtd in self._disponivel.items())
     
     def total_produtos_estoque(self):
+
         if not self.disponivel:
             return 0
         
         return sum(qtd for _, qtd in self._disponivel.items())
+    
+    def ajustar_quantidade_produto(self, produto: Produto, qtd: int):
+
+        if produto not in self._disponivel:
+            raise Exception("Produto não disponível no estoque!")
+
+        if self._disponivel[produto] + qtd < 0:
+            raise Exception("O estoque atualizado do produto não pode ser negativo!")
+        
+        self._disponivel[produto] += qtd
