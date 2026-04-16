@@ -22,7 +22,7 @@ class TestEstoque(TestCase):
     def test_deve_permitir_criar_estoque_vazio(self):
 
         estoque = Estoque()
-        self.assertEqual([], estoque.disponivel)
+        self.assertEqual({}, estoque.disponivel)
 
     def test_deve_permitir_multiplos_itens_estoque(self):
 
@@ -70,3 +70,18 @@ class TestEstoque(TestCase):
 
         estoque = Estoque()
         self.assertEqual(0, estoque.total_valor_estoque())
+
+    def test_total_produtos_estoque(self):
+
+        lista_produtos = [
+            {self.produto1: 1},
+            {self.produto2: 0},
+            {self.produto3: 4}
+        ]
+        estoque = Estoque(lista_produtos)
+        self.assertEqual(5, estoque.total_produtos_estoque())
+
+    def test_total_produtos_estoque_vazio(self):
+
+        estoque = Estoque()
+        self.assertEqual(0, estoque.total_produtos_estoque())
