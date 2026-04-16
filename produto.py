@@ -18,11 +18,13 @@ class Produto():
             raise Exception("Não é possível iniciar um produto com valor zerado/negativo!")
         
         self._nome = nome
-        self._valor = valor
+        valor_normalizado = round(valor, 2)
+        self._valor = valor_normalizado
 
     def alterar_valor(self, valor: float):
 
         if valor <= 0:
             raise Exception("O valor não pode ser zerado/negativo!")
         
-        self._valor = valor
+        valor_normalizado = round(valor, 2)
+        self._valor = valor_normalizado
