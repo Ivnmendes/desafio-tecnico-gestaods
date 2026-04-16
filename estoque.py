@@ -56,3 +56,10 @@ class Estoque():
             return
         
         self._disponivel[produto] = qtd
+
+    def remover_produto(self, produto: Produto):
+
+        if produto not in self._disponivel:
+            raise Exception("Produto não encontrado no estoque!")
+        
+        self._disponivel.pop(produto)
