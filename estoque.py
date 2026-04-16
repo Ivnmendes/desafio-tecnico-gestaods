@@ -72,3 +72,5 @@ class Estoque():
         quantidade_estoque = self._disponivel[produto]
 
         return { "nome": produto.nome, "valor_individual": produto.valor, "quantidade": quantidade_estoque}
+    
+    def limpar_estoque(self): self._disponivel = {}
