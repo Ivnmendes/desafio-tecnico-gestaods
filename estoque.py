@@ -7,7 +7,7 @@ class Estoque():
     def disponivel(self):
         return self._disponivel
     
-    def __init__(self, lista_estoque: list[dict[Produto, int]] = None):
+    def __init__(self, lista_estoque: list[dict[Produto, int]] = None) -> None:
 
         if not lista_estoque:
             self._disponivel = {}
@@ -22,21 +22,21 @@ class Estoque():
 
                 self._disponivel[produto] = self._disponivel.get(produto, 0) + quantidade
 
-    def total_valor_estoque(self):
+    def total_valor_estoque(self) -> float:
 
         if not self.disponivel:
             return 0
 
         return sum(prod.valor * qtd for prod, qtd in self._disponivel.items())
     
-    def total_produtos_estoque(self):
+    def total_produtos_estoque(self) -> int:
 
         if not self.disponivel:
             return 0
         
         return sum(qtd for _, qtd in self._disponivel.items())
     
-    def ajustar_quantidade_produto(self, produto: Produto, qtd: int):
+    def ajustar_quantidade_produto(self, produto: Produto, qtd: int) -> None:
 
         if produto not in self._disponivel:
             raise Exception("Produto não disponível no estoque!")
@@ -46,7 +46,7 @@ class Estoque():
         
         self._disponivel[produto] += qtd
 
-    def adicionar_produto(self, produto: Produto, qtd: int):
+    def adicionar_produto(self, produto: Produto, qtd: int) -> None:
 
         if qtd < 0:
             raise Exception("O estoque do produto não pode ser negativo!")
@@ -57,14 +57,14 @@ class Estoque():
         
         self._disponivel[produto] = qtd
 
-    def remover_produto(self, produto: Produto):
+    def remover_produto(self, produto: Produto) -> None:
 
         if produto not in self._disponivel:
             raise Exception("Produto não encontrado no estoque!")
         
         self._disponivel.pop(produto)
 
-    def verificar_estoque_produto(self, produto: Produto):
+    def verificar_estoque_produto(self, produto: Produto) -> dict[str: str | float | int]:
 
         if produto not in self._disponivel:
             raise Exception("Produto não encontrado no estoque!")
@@ -73,6 +73,6 @@ class Estoque():
 
         return { "nome": produto.nome, "valor_individual": produto.valor, "quantidade": quantidade_estoque}
     
-    def limpar_estoque(self): self._disponivel = {}
+    def limpar_estoque(self) -> None: self._disponivel = {}
 
-    def listar_produtos_estoque(self): return list(self._disponivel.keys())
+    def listar_produtos_estoque(self) -> list[Produto]: return list(self._disponivel.keys())

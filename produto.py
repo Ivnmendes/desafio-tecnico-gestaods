@@ -24,7 +24,7 @@ class Produto():
     def __str__(self):
         return f"{self.nome} - R${self.valor}"
     
-    def alterar_valor(self, valor: float):
+    def alterar_valor(self, valor: float) -> None:
 
         if valor <= 0:
             raise Exception("O valor não pode ser zerado/negativo!")
