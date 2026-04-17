@@ -64,14 +64,14 @@ class Estoque():
         
         self._disponivel.pop(produto)
 
-    def verificar_estoque_produto(self, produto: Produto) -> dict[str: str | float | int]:
+    def verificar_estoque_produto(self, produto: Produto) -> dict[str, str | float | int]:
 
         if produto not in self._disponivel:
             raise Exception("Produto não encontrado no estoque!")
         
         quantidade_estoque = self._disponivel[produto]
 
-        return { "nome": produto.nome, "valor_individual": produto.valor, "quantidade": quantidade_estoque}
+        return { "nome": produto.nome, "valor_individual": produto.valor, "quantidade": quantidade_estoque }
     
     def limpar_estoque(self) -> None: self._disponivel = {}
 
