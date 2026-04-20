@@ -2,10 +2,6 @@
 from produto import Produto
 
 class Estoque():
-
-    @property
-    def disponivel(self):
-        return self._disponivel
     
     def __init__(self, lista_estoque: list[dict[Produto, int]] = None) -> None:
 
@@ -22,6 +18,10 @@ class Estoque():
 
                 self._disponivel[produto] = self._disponivel.get(produto, 0) + quantidade
 
+    @property
+    def disponivel(self):
+        return self._disponivel
+    
     def total_valor_estoque(self) -> float:
 
         if not self.disponivel:

@@ -1,13 +1,5 @@
 
 class Produto():
-
-    @property
-    def nome(self):
-        return self._nome
-
-    @property
-    def valor(self):
-        return self._valor
     
     def __init__(self, nome: str, valor: float):
 
@@ -23,6 +15,14 @@ class Produto():
 
     def __str__(self):
         return f"{self.nome} - R${self.valor}"
+    
+    @property
+    def nome(self):
+        return self._nome
+
+    @property
+    def valor(self):
+        return self._valor
     
     def alterar_valor(self, valor: float) -> None:
 
