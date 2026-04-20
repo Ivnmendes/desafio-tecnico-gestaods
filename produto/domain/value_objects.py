@@ -11,6 +11,7 @@ class NomeProduto:
     def valor(self) -> str:
         return self._valor
     
+    
 class Preco:
 
     def __init__(self, valor: float):
