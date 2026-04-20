@@ -1,0 +1,3 @@
+
+class ProdutoIndisponivelError(Exception):
+    pass

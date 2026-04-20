@@ -2,6 +2,7 @@
 from typing import TypedDict
 
 from produto.domain.entities import Produto
+from .exceptions import ProdutoIndisponivelError
 from .value_objects import Quantidade
 
 class ItemEstoque():
@@ -47,7 +48,7 @@ class Estoque():
     def remover_produto(self, produto: Produto) -> None:
 
         if produto.id not in self._itens:
-            raise Exception("Produto não encontrado no estoque!")
+            raise ProdutoIndisponivelError("Produto não encontrado no estoque!")
         
         del self._itens[produto.id]
 
@@ -68,7 +69,7 @@ class Estoque():
     def verificar_estoque_produto(self, produto: Produto) -> InfoEstoqueDict:
 
         if produto.id not in self._itens:
-            raise Exception("Produto não encontrado no estoque!")
+            raise ProdutoIndisponivelError("Produto não encontrado no estoque!")
         
         item = self._itens[produto.id]
 
@@ -103,6 +104,6 @@ class Estoque():
     
     def ajustar_quantidade_produto(self, produto: Produto, qtd: int) -> None:
         if produto.id not in self._itens:
-            raise Exception("Produto não disponível no estoque!")
+            raise ProdutoIndisponivelError("Produto não disponível no estoque!")
         
         self._itens[produto.id].ajustar_quantidade(qtd)

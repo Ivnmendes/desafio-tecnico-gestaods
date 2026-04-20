@@ -2,6 +2,7 @@
 from unittest import TestCase
 
 from estoque.domain.entities import Estoque, ItemEstoque
+from estoque.domain.exceptions import ProdutoIndisponivelError
 
 from produto.domain.entities import Produto
 
@@ -154,7 +155,7 @@ class TestEstoque(TestCase):
         }
         estoque = Estoque(produtos)
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(ProdutoIndisponivelError) as context:
             estoque.ajustar_quantidade_produto(self.produto4, 1)
         self.assertTrue("Produto não disponível no estoque!" in str(context.exception))
 
@@ -327,7 +328,7 @@ class TestEstoque(TestCase):
         }
         estoque = Estoque(produtos)
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(ProdutoIndisponivelError) as context:
             estoque.remover_produto(self.produto4)
         self.assertTrue("Produto não encontrado no estoque!" in str(context.exception))
 
@@ -376,7 +377,7 @@ class TestEstoque(TestCase):
         }
         estoque = Estoque(produtos)
 
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(ProdutoIndisponivelError) as context:
             estoque.verificar_estoque_produto(self.produto4)
         self.assertTrue("Produto não encontrado no estoque!" in str(context.exception))
 
