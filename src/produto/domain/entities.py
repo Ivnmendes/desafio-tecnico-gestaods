@@ -5,9 +5,9 @@ from .value_objects import NomeProduto, Preco
 
 class Produto():
     
-    def __init__(self, nome: str, preco: float):
+    def __init__(self, nome: str, preco: float, id: str = None):
         
-        self._id = str(uuid.uuid4())
+        self._id = id if id else str(uuid.uuid4())
         self._nome = NomeProduto(nome)
         self._preco = Preco(preco)
 
