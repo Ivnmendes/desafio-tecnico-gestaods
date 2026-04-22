@@ -73,11 +73,11 @@ class Estoque():
         
         item = self._itens[produto.id]
 
-        return { 
-            "nome": item.produto.nome.valor, 
-            "valor_individual": item.produto.preco.valor, 
-            "quantidade": item.quantidade.valor
-        }
+        return InfoEstoqueDict( 
+            nome = item.produto.nome.valor, 
+            valor_individual = item.produto.preco.valor, 
+            quantidade = item.quantidade.valor
+        )
     
     def limpar_estoque(self) -> None: self._itens.clear()
 
