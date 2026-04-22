@@ -231,7 +231,7 @@ class TestEstoque(TestCase):
         estoque = Estoque(produtos)
 
         estoque.adicionar_produto(self.produto4, 3)
-        self.assertTrue(self.produto4 in estoque.itens)
+        self.assertTrue(self.produto4.id in estoque.itens)
 
     def test_adicionar_produto_estoque_quantidade_negativa(self):
 
@@ -428,7 +428,7 @@ class TestEstoque(TestCase):
 
         estoque.limpar_estoque()
         estoque.adicionar_produto(self.produto4, 1)
-        self.assertTrue(self.produto4 in estoque.itens)
+        self.assertTrue(self.produto4.id in estoque.itens)
 
     def test_listar_produtos_estoque(self):
 

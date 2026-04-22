@@ -12,6 +12,9 @@ class ItemEstoque():
         self._quantidade = Quantidade(quantidade)
         self._produto = produto
 
+    def __repr__(self) -> str:
+        return f"ItemEstoque(produto={self._produto}, quantidade={self._quantidade})"
+    
     @property
     def quantidade(self):
         return self._quantidade
@@ -43,7 +46,7 @@ class Estoque():
             self._itens[produto.id].ajustar_quantidade(qtd)
             return
         
-        self._itens[produto] = ItemEstoque(produto, qtd)
+        self._itens[produto.id] = ItemEstoque(produto, qtd)
 
     def remover_produto(self, produto: Produto) -> None:
 
