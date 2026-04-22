@@ -1,7 +1,7 @@
 
 from typing import TypedDict
 
-from produto.domain.entities import Produto
+from src.produto.domain.entities import Produto
 from .exceptions import ProdutoIndisponivelError
 from .value_objects import Quantidade
 

@@ -1,7 +1,7 @@
 
 from unittest import TestCase
 
-from produto.domain.value_objects import NomeProduto, Preco
+from src.produto.domain.value_objects import NomeProduto, Preco
 
 class TestNomeProduto(TestCase):
 

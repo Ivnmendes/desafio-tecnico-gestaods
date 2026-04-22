@@ -1,6 +1,6 @@
 
 from unittest import TestCase
-from caixa.domain.entities import Caixa
+from src.caixa.domain.entities import Caixa
 
 class TestTroco(TestCase): 
 

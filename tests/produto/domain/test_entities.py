@@ -1,8 +1,8 @@
 
 from unittest import TestCase
 
-from produto.domain.entities import Produto
-from produto.domain.value_objects import NomeProduto, Preco
+from src.produto.domain.entities import Produto
+from src.produto.domain.value_objects import NomeProduto, Preco
 
 class TestProduto(TestCase):
 

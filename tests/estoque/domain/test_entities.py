@@ -1,10 +1,10 @@
 
 from unittest import TestCase
 
-from estoque.domain.entities import Estoque, ItemEstoque
-from estoque.domain.exceptions import ProdutoIndisponivelError
+from src.estoque.domain.entities import Estoque, ItemEstoque
+from src.estoque.domain.exceptions import ProdutoIndisponivelError
 
-from produto.domain.entities import Produto
+from src.produto.domain.entities import Produto
 
 class TestEstoque(TestCase):
 
