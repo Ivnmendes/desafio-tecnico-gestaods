@@ -1,4 +1,3 @@
-
 class NomeProduto:
 
     def __init__(self, nome: str):
@@ -10,12 +9,12 @@ class NomeProduto:
     @property
     def valor(self) -> str:
         return self._valor
-    
-    
+
+
 class Preco:
 
     def __init__(self, valor: float):
-        
+
         if valor <= 0:
             raise ValueError("O valor não pode ser zerado/negativo!")
         self._valor = round(valor, 2)
