@@ -1,19 +1,19 @@
-
 import uuid
 
 from .value_objects import NomeProduto, Preco
 
-class Produto():
-    
-    def __init__(self, nome: str, preco: float, id: str = None):
-        
+
+class Produto:
+
+    def __init__(self, nome: str, preco: float, id: str | None = None):
+
         self._id = id if id else str(uuid.uuid4())
         self._nome = NomeProduto(nome)
         self._preco = Preco(preco)
 
     def __str__(self):
         return f"{self.nome.valor} - R${round(self.preco.valor, 2)}"
-    
+
     @property
     def nome(self):
         return self._nome
@@ -21,9 +21,10 @@ class Produto():
     @property
     def preco(self):
         return self._preco
-    
+
     @property
     def id(self):
         return self._id
-    
-    def alterar_preco(self, preco: float) -> None: self._preco = Preco(preco)
+
+    def alterar_preco(self, preco: float) -> None:
+        self._preco = Preco(preco)

@@ -1,5 +1,3 @@
-
-
 class Quantidade:
 
     def __init__(self, valor: int):
@@ -8,8 +6,8 @@ class Quantidade:
             raise ValueError("O estoque não pode ser negativo!")
         self._valor = valor
 
-    def somar(self, outra_quantidade: int) -> 'Quantidade':
-        
+    def somar(self, outra_quantidade: int) -> "Quantidade":
+
         if outra_quantidade + self._valor < 0:
             raise ValueError("O estoque não pode ser negativo!")
 
