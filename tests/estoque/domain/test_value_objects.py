@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.estoque.domain.value_objects import Quantidade
+from estoque.domain.value_objects import Quantidade
 
 
 class TestQuantidade(TestCase):

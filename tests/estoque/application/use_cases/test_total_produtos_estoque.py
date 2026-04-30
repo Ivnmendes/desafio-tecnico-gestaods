@@ -1,10 +1,8 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from src.estoque.application.use_cases.total_produtos_estoque import (
-    total_produtos_estoque,
-)
-from src.estoque.domain.entities import ItemEstoque
+from estoque.application.use_cases.total_produtos_estoque import total_produtos_estoque
+from estoque.domain.entities import ItemEstoque
 
 
 class TestTotalProdutosEstoque(TestCase):

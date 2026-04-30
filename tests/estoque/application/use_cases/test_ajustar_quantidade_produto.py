@@ -1,10 +1,10 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from src.estoque.application.use_cases.ajustar_quantidade_produto import (
+from estoque.application.use_cases.ajustar_quantidade_produto import (
     ajustar_quantidade_produto,
 )
-from src.estoque.domain.exceptions import ProdutoIndisponivelError
+from estoque.domain.exceptions import ProdutoIndisponivelError
 
 
 class TestAjustarQuantidadeProduto(TestCase):

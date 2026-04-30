@@ -1,5 +1,5 @@
-from src.estoque.domain.exceptions import ProdutoIndisponivelError
-from src.estoque.domain.repositories import IEstoqueRepository
+from estoque.domain.exceptions import ProdutoIndisponivelError
+from estoque.domain.repositories import IEstoqueRepository
 
 
 def ajustar_quantidade_produto(

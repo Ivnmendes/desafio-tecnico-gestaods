@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.estoque.domain.entities import ItemEstoque
+from estoque.domain.entities import ItemEstoque
 
 
 class TestItemEstoque(TestCase):

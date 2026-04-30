@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from src.estoque.application.use_cases.adicionar_produto_ao_estoque import (
+from estoque.application.use_cases.adicionar_produto_ao_estoque import (
     adicionar_produto_ao_estoque,
 )
 

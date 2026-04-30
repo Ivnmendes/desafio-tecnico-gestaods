@@ -1,4 +1,4 @@
-from src.estoque.domain.repositories import IEstoqueRepository
+from estoque.domain.repositories import IEstoqueRepository
 
 
 def total_produtos_estoque(repositorio_estoque: IEstoqueRepository) -> int:

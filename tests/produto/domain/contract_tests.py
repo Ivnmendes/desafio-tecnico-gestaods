@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 
-from estoque.domain.exceptions import ProdutoIndisponivelError
-from src.produto.domain.entities import Produto
+from produto.domain.entities import Produto
 
 
 class ProdutoRepositoryContract(ABC):
@@ -17,7 +16,7 @@ class ProdutoRepositoryContract(ABC):
         produto = Produto(id="123", nome="Produto A", preco=10.0)
 
         repo.salvar(produto)
-        resultado = repo.obter_por_id("123")
+        resultado = repo.obter_produto("123")
 
         assert resultado.nome == "Produto A"
         assert resultado.preco == 10.0
@@ -29,7 +28,7 @@ class ProdutoRepositoryContract(ABC):
 
         repo.salvar(produto)
         repo.remover("123")
-        resultado = repo.obter_por_id("123")
+        resultado = repo.obter_produto("123")
 
         assert resultado is None
 
@@ -49,10 +48,6 @@ class ProdutoRepositoryContract(ABC):
 
         repo = self.create_repository()
 
-        excecao_lancada = False
-        try:
-            repo.obter_item_estoque("inexistente")
-        except ProdutoIndisponivelError:
-            excecao_lancada = True
+        produto = repo.obter_produto("inexistente")
 
-        assert excecao_lancada is True, "Deveria ter lançado ProdutoIndisponivelError"
+        assert produto is None

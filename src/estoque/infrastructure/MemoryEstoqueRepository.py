@@ -1,6 +1,6 @@
-from src.estoque.domain.entities import ItemEstoque
-from src.estoque.domain.exceptions import ProdutoIndisponivelError
-from src.estoque.domain.repositories import IEstoqueRepository
+from estoque.domain.entities import ItemEstoque
+from estoque.domain.exceptions import ProdutoIndisponivelError
+from estoque.domain.repositories import IEstoqueRepository
 
 
 class MemoryEstoqueRepository(IEstoqueRepository):

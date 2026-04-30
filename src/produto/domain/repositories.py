@@ -10,7 +10,7 @@ class IProdutoRepository(ABC):
         pass
 
     @abstractmethod
-    def obter_produto(self, produto_id: str) -> Produto:
+    def obter_produto(self, produto_id: str) -> Produto | None:
         pass
 
     @abstractmethod

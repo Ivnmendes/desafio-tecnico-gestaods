@@ -1,5 +1,5 @@
-from src.estoque.domain.entities import ItemEstoque
-from src.estoque.domain.repositories import IEstoqueRepository
+from estoque.domain.entities import ItemEstoque
+from estoque.domain.repositories import IEstoqueRepository
 
 
 def adicionar_produto_ao_estoque(

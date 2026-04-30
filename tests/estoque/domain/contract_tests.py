@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from src.estoque.domain.entities import ItemEstoque
-from src.estoque.domain.exceptions import ProdutoIndisponivelError
+from estoque.domain.entities import ItemEstoque
+from estoque.domain.exceptions import ProdutoIndisponivelError
 
 
 class EstoqueRepositoryContract(ABC):

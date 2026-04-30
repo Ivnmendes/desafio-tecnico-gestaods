@@ -1,7 +1,7 @@
+from estoque.application.dtos.InfoEstoqueDTO import InfoEstoqueDTO
 from estoque.domain.exceptions import ProdutoIndisponivelError
+from estoque.domain.repositories import IEstoqueRepository
 from produto.domain.repositories import IProdutoRepository
-from src.estoque.application.dtos.InfoEstoqueDTO import InfoEstoqueDTO
-from src.estoque.domain.repositories import IEstoqueRepository
 
 
 def verificar_estoque_produto(

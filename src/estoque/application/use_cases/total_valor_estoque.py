@@ -1,5 +1,5 @@
-from src.estoque.domain.repositories import IEstoqueRepository
-from src.produto.domain.repositories import IProdutoRepository
+from estoque.domain.repositories import IEstoqueRepository
+from produto.domain.repositories import IProdutoRepository
 
 
 def total_valor_estoque(
