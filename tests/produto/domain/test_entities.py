@@ -44,4 +44,4 @@ class TestProduto(TestCase):
         produto = Produto(nome="Garrafa", preco=2.1)
 
         produto.alterar_preco(2.3)
-        self.assertEqual(2.3, produto.preco.valor)
+        self.assertEqual(2.3, produto.preco)

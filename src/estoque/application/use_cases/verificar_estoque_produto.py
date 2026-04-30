@@ -16,7 +16,7 @@ def verificar_estoque_produto(
 
     return InfoEstoqueDTO(
         id=item.produto_id,
-        nome=produto.nome.valor,
-        valor_individual=produto.preco.valor,
-        quantidade=item.quantidade.valor,
+        nome=produto.nome,
+        valor_individual=produto.preco,
+        quantidade=item.quantidade,
     )

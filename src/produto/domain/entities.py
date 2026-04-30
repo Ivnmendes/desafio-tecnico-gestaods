@@ -12,15 +12,15 @@ class Produto:
         self._preco = Preco(preco)
 
     def __str__(self):
-        return f"{self.nome.valor} - R${round(self.preco.valor, 2)}"
+        return f"{self.nome} - R${round(self.preco, 2)}"
 
     @property
     def nome(self):
-        return self._nome
+        return self._nome.valor
 
     @property
     def preco(self):
-        return self._preco
+        return self._preco.valor
 
     @property
     def id(self):

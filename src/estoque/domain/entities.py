@@ -13,7 +13,7 @@ class ItemEstoque:
 
     @property
     def quantidade(self):
-        return self._quantidade
+        return self._quantidade.valor
 
     @property
     def produto_id(self):
