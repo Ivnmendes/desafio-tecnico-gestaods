@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
-from unittest import TestCase
 
 from src.estoque.domain.entities import ItemEstoque
 from src.estoque.domain.exceptions import ProdutoIndisponivelError
 
 
-class EstoqueRepositoryContract(ABC, TestCase):
+class EstoqueRepositoryContract(ABC):
 
     @abstractmethod
     def create_repository(self):
@@ -18,7 +17,7 @@ class EstoqueRepositoryContract(ABC, TestCase):
         item = ItemEstoque(produto_id="123", quantidade=10)
 
         repo.salvar(item)
-        resultado = repo.obter_por_id("123")
+        resultado = repo.obter_item_estoque("123")
 
         assert resultado.quantidade == 10
 
@@ -29,7 +28,7 @@ class EstoqueRepositoryContract(ABC, TestCase):
 
         repo.salvar(item)
         repo.remover("123")
-        resultado = repo.obter_por_id("123")
+        resultado = repo.remover("123")
 
         assert resultado is None
 
@@ -37,8 +36,13 @@ class EstoqueRepositoryContract(ABC, TestCase):
 
         repo = self.create_repository()
 
-        with self.assertRaises(ProdutoIndisponivelError):
-            repo.obter_por_id("inexistente")
+        excecao_lancada = False
+        try:
+            repo.obter_item_estoque("inexistente")
+        except ProdutoIndisponivelError:
+            excecao_lancada = True
+
+        assert excecao_lancada is True, "Deveria ter lançado ProdutoIndisponivelError"
 
     def test_deve_obter_todos_itens(self):
 
@@ -48,7 +52,7 @@ class EstoqueRepositoryContract(ABC, TestCase):
 
         repo.salvar(item1)
         repo.salvar(item2)
-        resultado = repo.obter_todos_itens()
+        resultado = repo.obter_todos_itens_estoque()
 
         assert len(resultado) == 2
 
@@ -61,6 +65,6 @@ class EstoqueRepositoryContract(ABC, TestCase):
         repo.salvar(item1)
         repo.salvar(item2)
         repo.limpar_estoque()
-        resultado = repo.obter_todos_itens()
+        resultado = repo.obter_todos_itens_estoque()
 
         assert len(resultado) == 0
