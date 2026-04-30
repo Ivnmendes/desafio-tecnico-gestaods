@@ -13,6 +13,8 @@ def verificar_estoque_produto(
         raise ProdutoIndisponivelError("Produto não encontrado no estoque!")
 
     produto = produto_repo.obter_produto(produto_id)
+    if produto is None:
+        raise ProdutoIndisponivelError("Produto não encontrado no repositório!")
 
     return InfoEstoqueDTO(
         id=item.produto_id,

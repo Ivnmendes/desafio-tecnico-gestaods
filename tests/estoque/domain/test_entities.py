@@ -19,3 +19,9 @@ class TestItemEstoque(TestCase):
         item.ajustar_quantidade(2)
 
         self.assertEqual(5, item.quantidade)
+
+    def test_deve_representar_item_estoque_com_str(self):
+
+        item = ItemEstoque(produto_id="produto-1", quantidade=3)
+
+        self.assertEqual("ItemEstoque(produto=produto-1, quantidade=3)", repr(item))

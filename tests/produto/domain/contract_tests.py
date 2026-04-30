@@ -51,3 +51,18 @@ class ProdutoRepositoryContract(ABC):
         produto = repo.obter_produto("inexistente")
 
         assert produto is None
+
+    def test_deve_buscar_por_ids(self):
+
+        repo = self.create_repository()
+        produto1 = Produto(id="123", nome="Produto A", preco=10.0)
+        produto2 = Produto(id="456", nome="Produto B", preco=20.0)
+
+        repo.salvar(produto1)
+        repo.salvar(produto2)
+
+        resultado = repo.buscar_por_ids(["123", "456"])
+
+        assert len(resultado) == 2
+        assert resultado[0].id == "123"
+        assert resultado[1].id == "456"

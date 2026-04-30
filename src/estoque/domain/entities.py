@@ -9,7 +9,7 @@ class ItemEstoque:
         self._produto_id = produto_id
 
     def __repr__(self) -> str:
-        return f"ItemEstoque(produto={self._produto_id}, quantidade={self._quantidade})"
+        return f"ItemEstoque(produto={self._produto_id}, quantidade={self.quantidade})"
 
     @property
     def quantidade(self):
