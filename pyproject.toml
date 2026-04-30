@@ -1,6 +1,21 @@
+[project]
+name = "caixa"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
 [tool.mypy]
 mypy_path = "."
 explicit_package_bases = true
 namespace_packages = true
 check_untyped_defs = true
 ignore_missing_imports = true
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.0.0",
+    "mypy>=1.0.0",
+    "coverage>=7.0.0",
+]
