@@ -2,11 +2,11 @@ from unittest import TestCase
 
 import pytest
 
-from estoque.infrastructure.django.DjangoEstoqueRepository import (
+from estoque.infrastructure.django.repositories.DjangoEstoqueRepository import (
     DjangoEstoqueRepository,
 )
 from produto.domain.entities import Produto
-from produto.infrastructure.django.DjangoProdutoRepository import (
+from produto.infrastructure.django.repositories.DjangoProdutoRepository import (
     DjangoProdutoRepository,
 )
 from tests.estoque.domain.contract_tests import EstoqueRepositoryContract

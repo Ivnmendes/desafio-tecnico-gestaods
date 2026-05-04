@@ -1,7 +1,7 @@
 from estoque.domain.entities import ItemEstoque
 from estoque.domain.exceptions import ProdutoIndisponivelError
 from estoque.domain.repositories import IEstoqueRepository
-from estoque.infrastructure.django.django_models import ItemEstoqueModel
+from estoque.infrastructure.django.models import ItemEstoqueModel
 
 
 class DjangoEstoqueRepository(IEstoqueRepository):

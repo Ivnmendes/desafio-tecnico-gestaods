@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import pytest
 
-from produto.infrastructure.django.DjangoProdutoRepository import (
+from produto.infrastructure.django.repositories.DjangoProdutoRepository import (
     DjangoProdutoRepository,
 )
 from tests.produto.domain.contract_tests import ProdutoRepositoryContract

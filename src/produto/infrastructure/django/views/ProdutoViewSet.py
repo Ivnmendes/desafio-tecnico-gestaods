@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from produto.application.use_cases.alterar_valor_produto import alterar_valor_produto
 from produto.application.use_cases.criar_produto import criar_produto
-from produto.infrastructure.django.DjangoProdutoRepository import (
+from produto.infrastructure.django.repositories.DjangoProdutoRepository import (
     DjangoProdutoRepository,
 )
 from produto.infrastructure.django.serializers.ProdutoSerializer import (
