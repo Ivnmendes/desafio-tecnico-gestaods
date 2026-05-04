@@ -21,8 +21,8 @@ DEBUG = env("DEBUG")
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=[])
 
 MY_APPS = [
-    "estoque.apps.EstoqueConfig",
-    "produto.apps.ProdutoConfig",
+    "estoque.infrastructure.django.apps.EstoqueConfig",
+    "produto.infrastructure.django.apps.ProdutoConfig",
 ]
 
 INSTALLED_APPS = [

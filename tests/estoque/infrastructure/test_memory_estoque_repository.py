@@ -1,6 +1,8 @@
 from unittest import TestCase
 
-from estoque.infrastructure.MemoryEstoqueRepository import MemoryEstoqueRepository
+from estoque.infrastructure.memory.MemoryEstoqueRepository import (
+    MemoryEstoqueRepository,
+)
 from tests.estoque.domain.contract_tests import EstoqueRepositoryContract
 
 
