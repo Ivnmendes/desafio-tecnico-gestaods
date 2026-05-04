@@ -5,6 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "django>=5.2.13",
+    "django-environ>=0.13.0",
+    "djangorestframework>=3.17.1",
     "pytest>=9.0.3",
     "pytest-cov>=7.1.0",
 ]
@@ -22,6 +25,9 @@ explicit_package_bases = true
 namespace_packages = true
 check_untyped_defs = true
 ignore_missing_imports = true
+exclude = [
+    "src/configuracao_django/settings\\.py"
+]
 
 [tool.pytest.ini_options]
 pythonpath = "src"
