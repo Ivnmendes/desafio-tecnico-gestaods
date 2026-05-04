@@ -26,33 +26,3 @@ class MemoryEstoqueRepository(IEstoqueRepository):
         if produto_id not in self._itens:
             return
         del self._itens[produto_id]
-
-    # def filtrar_estoque_por_valor(
-    #     self, min_valor: float = 0, max_valor: float = None
-    # ) -> list[ItemEstoque]:
-
-    #     if max_valor is not None and (min_valor > max_valor):
-    #         raise ValueError(
-
-
-#               "Filtros inválidos: "
-#               "O valor mínimo não pode ser maior que o valor máximo."
-#         )
-
-#     if min_valor < 0:
-#         raise ValueError(
-#               "Filtros inválidos: "
-#               " O valor mínimo não pode ser negativo.")
-
-#     produtos_filtrados = []
-
-#     for item in self._itens.values():
-#         if item.produto.preco.valor < min_valor:
-#             continue
-
-#         if max_valor is not None and item.produto.preco.valor > max_valor:
-#             continue
-
-#         produtos_filtrados.append(item)
-
-#     return produtos_filtrados

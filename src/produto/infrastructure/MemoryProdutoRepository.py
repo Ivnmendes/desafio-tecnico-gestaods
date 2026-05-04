@@ -22,3 +22,19 @@ class MemoryProdutoRepository(IProdutoRepository):
 
     def buscar_por_ids(self, produto_ids) -> list[Produto]:
         return [self.produtos[pid] for pid in produto_ids if pid in self.produtos]
+
+    def filtrar_produtos_preco(
+        self, preco_min: float, preco_max: float | None = None
+    ) -> list[Produto]:
+
+        if preco_max is None:
+            return [
+                produto
+                for produto in self.produtos.values()
+                if produto.preco >= preco_min
+            ]
+        return [
+            produto
+            for produto in self.produtos.values()
+            if preco_min <= produto.preco <= preco_max
+        ]
