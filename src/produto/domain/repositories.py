@@ -6,7 +6,7 @@ from .entities import Produto
 class IProdutoRepository(ABC):
 
     @abstractmethod
-    def salvar(self, produto: Produto) -> None:
+    def salvar(self, produto: Produto) -> Produto:
         pass
 
     @abstractmethod
