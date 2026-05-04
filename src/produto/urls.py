@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from produto.infrastructure.api.views.ProdutoViewSet import ProdutoViewSet
+from produto.infrastructure.django.views.ProdutoViewSet import ProdutoViewSet
 
 router = DefaultRouter()
 router.register(r"produtos", ProdutoViewSet, basename="produto")

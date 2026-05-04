@@ -4,7 +4,7 @@ import pytest
 
 from estoque.infrastructure.DjangoEstoqueRepository import DjangoEstoqueRepository
 from produto.domain.entities import Produto
-from produto.infrastructure.repositories.DjangoProdutoRepository import (
+from produto.infrastructure.django.DjangoProdutoRepository import (
     DjangoProdutoRepository,
 )
 from tests.estoque.domain.contract_tests import EstoqueRepositoryContract

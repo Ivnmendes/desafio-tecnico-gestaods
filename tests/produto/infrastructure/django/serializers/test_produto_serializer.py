@@ -1,6 +1,8 @@
 from unittest import TestCase
 
-from produto.infrastructure.api.serializers.ProdutoSerializer import ProdutoSerializer
+from produto.infrastructure.django.serializers.ProdutoSerializer import (
+    ProdutoSerializer,
+)
 
 
 class TestProdutoSerializer(TestCase):

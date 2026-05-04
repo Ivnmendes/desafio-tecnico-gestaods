@@ -1,6 +1,6 @@
 from produto.domain.entities import Produto
 from produto.domain.repositories import IProdutoRepository
-from produto.infrastructure.models.django_models import ProdutoModel
+from produto.infrastructure.django.django_models import ProdutoModel
 
 
 class DjangoProdutoRepository(IProdutoRepository):

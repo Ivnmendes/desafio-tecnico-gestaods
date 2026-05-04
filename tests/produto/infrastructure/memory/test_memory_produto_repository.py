@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from produto.infrastructure.repositories.MemoryProdutoRepository import (
+from produto.infrastructure.memory.MemoryProdutoRepository import (
     MemoryProdutoRepository,
 )
 from tests.produto.domain.contract_tests import ProdutoRepositoryContract

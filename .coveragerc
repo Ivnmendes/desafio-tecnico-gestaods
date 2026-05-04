@@ -6,7 +6,7 @@ omit =
     src/*/apps.py
     src/*/models.py
     src/*/urls.py
-    src/*/infrastructure/api/views/*
+    src/*/infrastructure/django/views/*
     django_models.py
     __init__.py
     app.py

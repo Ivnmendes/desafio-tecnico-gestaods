@@ -1,1 +1,1 @@
-from produto.infrastructure.models.django_models import *  # noqa: F401, F403
+from produto.infrastructure.django.django_models import *  # noqa: F401, F403
