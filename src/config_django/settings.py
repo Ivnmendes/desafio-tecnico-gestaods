@@ -20,6 +20,11 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=[])
 
+MY_APPS = [
+    "estoque.apps.EstoqueConfig",
+    "produto.apps.ProdutoConfig",
+]
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -27,6 +32,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    *MY_APPS,
 ]
 
 MIDDLEWARE = [
