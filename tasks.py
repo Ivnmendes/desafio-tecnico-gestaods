@@ -3,21 +3,7 @@ import sys
 
 
 def test():
-    subprocess.run(
-        [
-            "uv",
-            "run",
-            "python",
-            "-m",
-            "unittest",
-            "discover",
-            "-s",
-            "tests",
-            "-t",
-            ".",
-            "-v",
-        ]
-    )
+    subprocess.run(["uv", "run", "pytest", "-v", "tests"])
 
 
 def test_cov():

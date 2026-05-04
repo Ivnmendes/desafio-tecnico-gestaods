@@ -32,10 +32,13 @@ exclude = [
 [tool.pytest.ini_options]
 pythonpath = "src"
 testpaths = ["tests"]
+DJANGO_SETTINGS_MODULE = "config_django.settings"
 
 [dependency-groups]
 dev = [
     "pre-commit>=4.0.0",
     "mypy>=1.0.0",
     "coverage>=7.0.0",
+    "pytest>=9.0.3",
+    "pytest-django>=4.12.0",
 ]

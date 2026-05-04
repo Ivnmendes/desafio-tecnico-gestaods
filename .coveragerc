@@ -1,5 +1,14 @@
 [run]
 source = src
+omit =
+    src/manage.py
+    src/config_django/*
+    src/*/apps.py
+    src/*/models.py
+    src/*/urls.py
+    src/*/infrastructure/django_models.py
+    __init__.py
+    app.py
 
 [report]
 exclude_lines =
