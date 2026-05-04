@@ -2,7 +2,7 @@ import uuid
 
 from django.db import models
 
-from produto.infrastructure.django_models import ProdutoModel
+from produto.infrastructure.models.django_models import ProdutoModel
 
 
 class ItemEstoqueModel(models.Model):

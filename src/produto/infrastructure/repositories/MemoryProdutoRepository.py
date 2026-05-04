@@ -7,8 +7,10 @@ class MemoryProdutoRepository(IProdutoRepository):
     def __init__(self):
         self.produtos = {}
 
-    def salvar(self, produto) -> None:
+    def salvar(self, produto) -> Produto:
+
         self.produtos[produto.id] = produto
+        return produto
 
     def obter_produto(self, produto_id) -> Produto | None:
         return self.produtos.get(produto_id, None)

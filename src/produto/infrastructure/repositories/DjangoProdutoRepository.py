@@ -1,15 +1,16 @@
 from produto.domain.entities import Produto
 from produto.domain.repositories import IProdutoRepository
-from produto.infrastructure.django_models import ProdutoModel
+from produto.infrastructure.models.django_models import ProdutoModel
 
 
 class DjangoProdutoRepository(IProdutoRepository):
 
-    def salvar(self, produto: Produto) -> None:
+    def salvar(self, produto: Produto) -> Produto:
 
-        ProdutoModel.objects.update_or_create(
+        produto, _ = ProdutoModel.objects.update_or_create(
             id=produto.id, defaults={"nome": produto.nome, "preco": produto.preco}
         )
+        return produto
 
     def obter_produto(self, produto_id: str) -> Produto | None:
 
@@ -23,7 +24,7 @@ class DjangoProdutoRepository(IProdutoRepository):
 
         return [
             Produto(id=model.id, nome=model.nome, preco=model.preco)
-            for model in ProdutoModel.objects.all()
+            for model in ProdutoModel.objects.all().iterator()
         ]
 
     def remover(self, produto_id: str) -> None:
