@@ -66,3 +66,36 @@ class ProdutoRepositoryContract(ABC):
         assert len(resultado) == 2
         assert resultado[0].id == "123"
         assert resultado[1].id == "456"
+
+    def test_filtrar_produtos_por_preco(self):
+
+        repo = self.create_repository()
+        produto1 = Produto(id="123", nome="Produto A", preco=10.0)
+        produto2 = Produto(id="456", nome="Produto B", preco=20.0)
+        produto3 = Produto(id="789", nome="Produto C", preco=30.0)
+
+        repo.salvar(produto1)
+        repo.salvar(produto2)
+        repo.salvar(produto3)
+
+        resultado = repo.filtrar_produtos_preco(15.0)
+
+        assert len(resultado) == 2
+        assert resultado[0].id == "456"
+        assert resultado[1].id == "789"
+
+    def test_filtrar_produtos_por_preco_com_maximo(self):
+
+        repo = self.create_repository()
+        produto1 = Produto(id="123", nome="Produto A", preco=10.0)
+        produto2 = Produto(id="456", nome="Produto B", preco=20.0)
+        produto3 = Produto(id="789", nome="Produto C", preco=30.0)
+
+        repo.salvar(produto1)
+        repo.salvar(produto2)
+        repo.salvar(produto3)
+
+        resultado = repo.filtrar_produtos_preco(15.0, 25.0)
+
+        assert len(resultado) == 1
+        assert resultado[0].id == "456"
