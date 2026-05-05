@@ -1,3 +1,4 @@
+from dependency_injector.wiring import Provide, inject
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -17,22 +18,25 @@ from estoque.application.use_cases.verificar_estoque_produto import (
     verificar_estoque_produto,
 )
 from estoque.domain.exceptions import ProdutoIndisponivelError
-from estoque.infrastructure.django.repositories.django_estoque_repositorie import (
-    DjangoEstoqueRepository,
-)
+from estoque.infrastructure.django.containers import Container
 from estoque.infrastructure.django.serializers.item_estoque_serializer import (
     ItemEstoqueCreateUpdateSerializer,
     ItemEstoqueRetrieveSerializer,
-)
-from produto.infrastructure.django.repositories.django_produto_repositorie import (
-    DjangoProdutoRepository,
 )
 
 
 class ItemEstoqueViewSet(viewsets.ViewSet):
 
-    repo_estoque = DjangoEstoqueRepository()
-    repo_produto = DjangoProdutoRepository()
+    @inject
+    def __init__(
+        self,
+        repo_estoque=Provide[Container.repo_estoque],
+        repo_produto=Provide[Container.repo_produto],
+        **kwargs,
+    ):
+        super().__init__(**kwargs)
+        self.repo_estoque = repo_estoque
+        self.repo_produto = repo_produto
 
     def list(self, request):
 

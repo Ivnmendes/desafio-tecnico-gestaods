@@ -1,12 +1,11 @@
+from dependency_injector.wiring import Provide, inject
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from estoque.infrastructure.django.containers import Container
 from produto.application.use_cases.alterar_valor_produto import alterar_valor_produto
 from produto.application.use_cases.criar_produto import criar_produto
-from produto.infrastructure.django.repositories.django_produto_repositorie import (
-    DjangoProdutoRepository,
-)
 from produto.infrastructure.django.serializers.produto_serializer import (
     ProdutoSerializer,
 )
@@ -14,7 +13,14 @@ from produto.infrastructure.django.serializers.produto_serializer import (
 
 class ProdutoViewSet(viewsets.ViewSet):
 
-    repo_produto = DjangoProdutoRepository()
+    @inject
+    def __init__(
+        self,
+        repo_produto=Provide[Container.repo_produto],
+        **kwargs,
+    ):
+        super().__init__(**kwargs)
+        self.repo_produto = repo_produto
 
     def list(self, request):
 
