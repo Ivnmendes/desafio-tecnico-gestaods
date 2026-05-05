@@ -7,7 +7,11 @@ class Quantidade:
         self._valor = valor
 
     def somar(self, outra_quantidade: int) -> "Quantidade":
+        """
+        Gera uma nova instância de Quantidade com o saldo atualizado.
 
+        Para subtrair do estoque, deve-se passar um inteiro negativo.
+        """
         if outra_quantidade + self._valor < 0:
             raise ValueError("O estoque não pode ser negativo!")
 

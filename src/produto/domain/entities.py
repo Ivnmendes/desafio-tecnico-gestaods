@@ -4,6 +4,7 @@ from .value_objects import NomeProduto, Preco
 
 
 class Produto:
+    """Entidade que representa um produto no sistema."""
 
     def __init__(self, nome: str, preco: float, id: str | None = None):
 
@@ -30,4 +31,5 @@ class Produto:
         return self._id
 
     def alterar_preco(self, preco: float) -> None:
+        """Altera o preço do produto."""
         self._preco = Preco(preco)
