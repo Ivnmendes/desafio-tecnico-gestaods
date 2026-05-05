@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-from produto.domain.entities import Produto
-
 from .entities import ItemEstoque
 
 
@@ -12,11 +10,11 @@ class IEstoqueRepository(ABC):
         pass
 
     @abstractmethod
-    def remover(self, produto: Produto) -> None:
+    def remover(self, produto_id: str) -> None:
         pass
 
     @abstractmethod
-    def obter_item_estoque(self, produto: Produto) -> ItemEstoque | None:
+    def obter_item_estoque(self, produto_id: str) -> ItemEstoque | None:
         pass
 
     @abstractmethod

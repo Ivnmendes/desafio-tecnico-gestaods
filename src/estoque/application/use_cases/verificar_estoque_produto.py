@@ -9,18 +9,18 @@ def verificar_estoque_produto(
     estoque_repo: IEstoqueRepository, produto_repo: IProdutoRepository, produto: Produto
 ) -> InfoEstoqueDTO:
 
-    item = estoque_repo.obter_item_estoque(produto)
+    item = estoque_repo.obter_item_estoque(produto.id)
 
     if item is None:
         raise ProdutoIndisponivelError("Produto não encontrado no estoque!")
 
-    produto = produto_repo.obter_produto(produto.id)
-    if produto is None:
+    produto_banco = produto_repo.obter_produto(produto.id)
+    if produto_banco is None:
         raise ProdutoIndisponivelError("Produto não encontrado no repositório!")
 
     return InfoEstoqueDTO(
         id=item.produto_id,
-        nome=produto.nome,
-        valor_individual=produto.preco,
+        nome=produto_banco.nome,
+        valor_individual=produto_banco.preco,
         quantidade=item.quantidade,
     )

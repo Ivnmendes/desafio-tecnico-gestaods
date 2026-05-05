@@ -32,8 +32,12 @@ class TestItemEstoque(TestCase):
         )
 
         self.assertEqual(
-            "ItemEstoque(produto=Produto(id='produto-1', "
-            "nome='Produto 1', preco=10.0), "
+            "ItemEstoque("
+            "produto=Produto("
+            "id=produto-1, "
+            "nome=Produto 1, "
+            "preco=10.0"
+            "), "
             "quantidade=3"
             ")",
             repr(item),

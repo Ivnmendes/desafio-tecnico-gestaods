@@ -2,7 +2,6 @@ import uuid
 from abc import ABC, abstractmethod
 
 from estoque.domain.entities import ItemEstoque
-from estoque.domain.exceptions import ProdutoIndisponivelError
 from produto.domain.entities import Produto
 
 
@@ -29,7 +28,7 @@ class EstoqueRepositoryContract(ABC):
         item = ItemEstoque(produto=produto, quantidade=10)
 
         repo.salvar(item)
-        resultado = repo.obter_item_estoque(produto)
+        resultado = repo.obter_item_estoque(produto.id)
 
         assert (
             resultado.quantidade == 10
@@ -49,15 +48,13 @@ class EstoqueRepositoryContract(ABC):
         item = ItemEstoque(produto=produto, quantidade=10)
 
         repo.salvar(item)
-        repo.remover(produto)
+        repo.remover(produto.id)
 
-        excecao_lancada = False
-        try:
-            repo.obter_item_estoque(str(uuid.uuid4()))
-        except ProdutoIndisponivelError:
-            excecao_lancada = True
-
-        assert excecao_lancada is True, "Deveria ter lançado ProdutoIndisponivelError"
+        resultado = repo.obter_item_estoque(id_produto)
+        assert resultado is None, (
+            f"Deveria ter retornado None para item inexistente após remoção, "
+            f"retornou {resultado}"
+        )
 
     def test_deve_remover_item_inexistente_sem_erro(self):
 
@@ -69,17 +66,13 @@ class EstoqueRepositoryContract(ABC):
         except Exception as e:
             assert False, f"Não deveria ter lançado nenhuma exceção, mas lançou: {e}"
 
-    def test_deve_lancar_erro_ao_obter_item_inexistente(self):
+    def test_deve_retornar_none_ao_obter_item_inexistente(self):
 
         repo = self.create_repository()
 
-        excecao_lancada = False
-        try:
-            repo.obter_item_estoque(str(uuid.uuid4()))
-        except ProdutoIndisponivelError:
-            excecao_lancada = True
+        resultado = repo.obter_item_estoque(str(uuid.uuid4()))
 
-        assert excecao_lancada is True, "Deveria ter lançado ProdutoIndisponivelError"
+        assert resultado is None, "Deveria ter retornado None para item inexistente"
 
     def test_deve_obter_todos_itens(self):
 
@@ -127,13 +120,11 @@ class EstoqueRepositoryContract(ABC):
         repo.salvar(item2)
         repo.limpar_estoque()
 
-        excecao_lancada = False
-        try:
-            repo.obter_item_estoque(str(uuid.uuid4()))
-        except ProdutoIndisponivelError:
-            excecao_lancada = True
+        resultado = repo.obter_item_estoque(str(uuid.uuid4()))
 
-        assert excecao_lancada is True, "Deveria ter lançado ProdutoIndisponivelError"
+        assert (
+            resultado is None
+        ), "Deveria ter retornado None para item inexistente após limpar o estoque"
 
     def test_deve_filtrar_itens_por_preco(self):
 
@@ -162,7 +153,9 @@ class EstoqueRepositoryContract(ABC):
             preco_minimo=15.0, preco_maximo=25.0
         )
 
-        assert len(resultado) == 1, "Deveria ter retornado apenas 1 item no estoque"
+        assert (
+            len(resultado) == 1
+        ), f"Deveria ter retornado apenas 1 item no estoque, retornou {len(resultado)}"
         assert id2 in [
             str(item.produto_id) for item in resultado
         ], "O ID do item filtrado deveria estar presente no resultado"

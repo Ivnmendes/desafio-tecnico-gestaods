@@ -15,3 +15,11 @@ class TestMemoryEstoqueRepository(TestCase, EstoqueRepositoryContract):
     def setup_produto(self, produto: Produto):
         # Nao precisa de setup, nao persiste dados
         pass
+
+    def test_deve_filtrar_itens_por_preco(self):
+        # Nao implementada sem persistencia
+        pass
+
+    def test_deve_filtrar_itens_por_preco_com_preco_maximo_none(self):
+        # Nao implementada sem persistencia
+        pass

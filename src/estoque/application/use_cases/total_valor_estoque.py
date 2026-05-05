@@ -11,7 +11,7 @@ def total_valor_estoque(
     ids = [item.produto_id for item in itens_estoque]
     produtos = repositorio_produto.buscar_por_ids(ids)
 
-    mapa_precos = {p.id: p.preco for p in produtos}
+    mapa_precos = {p.id: float(p.preco) for p in produtos}
 
     total = 0.0
     for item in itens_estoque:

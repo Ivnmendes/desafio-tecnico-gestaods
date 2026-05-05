@@ -12,3 +12,5 @@ def ajustar_quantidade_produto(
         raise ProdutoIndisponivelError("Produto não encontrado no estoque!")
 
     item.ajustar_quantidade(qtd)
+
+    repositorio_estoque.salvar(item)

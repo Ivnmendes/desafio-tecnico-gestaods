@@ -11,13 +11,16 @@ class TestFiltrarEstoquePorPreco(TestCase):
     def test_deve_filtrar_produtos_por_preco(self):
 
         repositorio = Mock()
-        repositorio.filtrar_produtos_preco.return_value = ["produto-1", "produto-2"]
+        repositorio.filtrar_itens_estoque_preco.return_value = [
+            "produto-1",
+            "produto-2",
+        ]
 
         resultado = filtrar_estoque_por_preco(
             repositorio, preco_minimo=10.0, preco_maximo=50.0
         )
 
-        repositorio.filtrar_produtos_preco.assert_called_once_with(10.0, 50.0)
+        repositorio.filtrar_itens_estoque_preco.assert_called_once_with(10.0, 50.0)
         self.assertEqual(resultado, ["produto-1", "produto-2"])
 
     def test_deve_lancar_erro_quando_preco_minimo_negativo(self):

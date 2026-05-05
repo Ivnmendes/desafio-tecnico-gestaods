@@ -1,14 +1,13 @@
 from estoque.domain.entities import ItemEstoque
 from estoque.domain.repositories import IEstoqueRepository
 from estoque.infrastructure.django.models import ItemEstoqueModel
-from produto.domain.entities import Produto
 
 
 class DjangoEstoqueRepository(IEstoqueRepository):
 
-    def obter_item_estoque(self, produto: Produto) -> ItemEstoque | None:
+    def obter_item_estoque(self, produto_id: str) -> ItemEstoque | None:
         try:
-            model = ItemEstoqueModel.objects.get(produto_id=produto.id)
+            model = ItemEstoqueModel.objects.get(produto_id=produto_id)
             return ItemEstoque(produto=model.produto, quantidade=model.quantidade)
         except ItemEstoqueModel.DoesNotExist:
             return None
@@ -30,8 +29,8 @@ class DjangoEstoqueRepository(IEstoqueRepository):
     def limpar_estoque(self) -> None:
         ItemEstoqueModel.objects.all().delete()
 
-    def remover(self, produto: Produto) -> None:
-        ItemEstoqueModel.objects.filter(produto_id=produto.id).delete()
+    def remover(self, produto_id: str) -> None:
+        ItemEstoqueModel.objects.filter(produto_id=produto_id).delete()
 
     def filtrar_itens_estoque_preco(
         self, preco_minimo: float = 0.0, preco_maximo: float | None = None
