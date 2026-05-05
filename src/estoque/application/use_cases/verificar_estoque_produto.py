@@ -1,4 +1,4 @@
-from estoque.application.dtos.InfoEstoqueDTO import InfoEstoqueDTO
+from estoque.application.dtos.info_estoque_dto import InfoEstoqueDTO
 from estoque.domain.exceptions import ProdutoIndisponivelError
 from estoque.domain.repositories import IEstoqueRepository
 from produto.domain.entities import Produto
