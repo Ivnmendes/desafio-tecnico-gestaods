@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from produto.infrastructure.django.serializers.ProdutoSerializer import (
+from produto.infrastructure.django.serializers.produto_serializer import (
     ProdutoSerializer,
 )
 

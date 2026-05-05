@@ -17,14 +17,14 @@ from estoque.application.use_cases.verificar_estoque_produto import (
     verificar_estoque_produto,
 )
 from estoque.domain.exceptions import ProdutoIndisponivelError
-from estoque.infrastructure.django.repositories.DjangoEstoqueRepository import (
+from estoque.infrastructure.django.repositories.django_estoque_repositorie import (
     DjangoEstoqueRepository,
 )
-from estoque.infrastructure.django.serializers.ItemEstoqueSerializer import (
+from estoque.infrastructure.django.serializers.item_estoque_serializer import (
     ItemEstoqueCreateUpdateSerializer,
     ItemEstoqueRetrieveSerializer,
 )
-from produto.infrastructure.django.repositories.DjangoProdutoRepository import (
+from produto.infrastructure.django.repositories.django_produto_repositorie import (
     DjangoProdutoRepository,
 )
 

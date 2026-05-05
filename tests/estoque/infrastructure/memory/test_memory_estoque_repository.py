@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from estoque.infrastructure.memory.MemoryEstoqueRepository import (
+from estoque.infrastructure.memory.memory_estoque_repositorie import (
     MemoryEstoqueRepository,
 )
 from produto.domain.entities import Produto

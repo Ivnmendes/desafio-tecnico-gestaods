@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from estoque.infrastructure.django.serializers.ItemEstoqueSerializer import (
+from estoque.infrastructure.django.serializers.item_estoque_serializer import (
     ItemEstoqueRetrieveSerializer,
 )
 
