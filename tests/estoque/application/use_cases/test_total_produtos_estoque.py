@@ -3,6 +3,7 @@ from unittest.mock import Mock
 
 from estoque.application.use_cases.total_produtos_estoque import total_produtos_estoque
 from estoque.domain.entities import ItemEstoque
+from produto.domain.entities import Produto
 
 
 class TestTotalProdutosEstoque(TestCase):
@@ -11,8 +12,8 @@ class TestTotalProdutosEstoque(TestCase):
 
         repositorio = Mock()
 
-        item1 = ItemEstoque("produto-1", 2)
-        item2 = ItemEstoque("produto-2", 1)
+        item1 = ItemEstoque(Produto("produto-1", 23), 2)
+        item2 = ItemEstoque(Produto("produto-2", 23), 1)
 
         repositorio.obter_todos_itens_estoque.return_value = [item1, item2]
 

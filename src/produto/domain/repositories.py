@@ -24,9 +24,3 @@ class IProdutoRepository(ABC):
     @abstractmethod
     def buscar_por_ids(self, produto_ids: list[str]) -> list[Produto]:
         pass
-
-    @abstractmethod
-    def filtrar_produtos_preco(
-        self, preco_min: float, preco_max: float | None = None
-    ) -> list[Produto]:
-        pass

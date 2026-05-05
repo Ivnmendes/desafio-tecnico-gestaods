@@ -1,15 +1,17 @@
+from produto.domain.entities import Produto
+
 from .value_objects import Quantidade
 
 
 class ItemEstoque:
 
-    def __init__(self, produto_id: str, quantidade: int) -> None:
+    def __init__(self, produto: Produto, quantidade: int) -> None:
 
         self._quantidade = Quantidade(quantidade)
-        self._produto_id = produto_id
+        self._produto = produto
 
     def __repr__(self) -> str:
-        return f"ItemEstoque(produto={self._produto_id}, quantidade={self.quantidade})"
+        return f"ItemEstoque(produto={self._produto.id}, quantidade={self.quantidade})"
 
     @property
     def quantidade(self):
@@ -17,7 +19,11 @@ class ItemEstoque:
 
     @property
     def produto_id(self):
-        return self._produto_id
+        return self._produto.id
+
+    @property
+    def produto(self):
+        return self._produto
 
     def ajustar_quantidade(self, qtd: int) -> None:
         self._quantidade = self._quantidade.somar(qtd)

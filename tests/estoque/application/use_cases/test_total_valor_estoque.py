@@ -13,8 +13,8 @@ class TestTotalValorEstoque(TestCase):
         repositorio_estoque = Mock()
         repositorio_produto = Mock()
 
-        item1 = ItemEstoque("produto-1", 2)
-        item2 = ItemEstoque("produto-2", 1)
+        item1 = ItemEstoque(Produto(id="produto-1", nome="Produto 1", preco=10.0), 2)
+        item2 = ItemEstoque(Produto(id="produto-2", nome="Produto 2", preco=4.0), 1)
 
         produto1 = Produto(id="produto-1", nome="Produto 1", preco=10.0)
         produto2 = Produto(id="produto-2", nome="Produto 2", preco=4.0)

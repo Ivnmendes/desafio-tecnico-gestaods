@@ -18,7 +18,6 @@ class TestDjangoEstoqueRepository(TestCase, EstoqueRepositoryContract):
     def create_repository(self):
         return DjangoEstoqueRepository()
 
-    def setup_produto(self, id: str, nome: str, preco: float):
+    def setup_produto(self, produto: Produto):
         produto_repo = DjangoProdutoRepository()
-        produto = Produto(id=id, nome="Produto Teste", preco=10.0)
         produto_repo.salvar(produto)

@@ -36,18 +36,3 @@ class DjangoProdutoRepository(IProdutoRepository):
             Produto(id=model.id, nome=model.nome, preco=model.preco)
             for model in ProdutoModel.objects.filter(id__in=produto_ids)
         ]
-
-    def filtrar_produtos_preco(
-        self, preco_min: float, preco_max: float | None = None
-    ) -> list[Produto]:
-
-        filters = {"preco__gte": preco_min}
-        if preco_max is not None:
-            filters["preco__lte"] = preco_max
-
-        queryset = ProdutoModel.objects.filter(**filters)
-
-        return [
-            Produto(id=model.id, nome=model.nome, preco=model.preco)
-            for model in queryset
-        ]
