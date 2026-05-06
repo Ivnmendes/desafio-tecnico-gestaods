@@ -6,7 +6,6 @@ omit =
     */apps.py
     */models.py
     */urls.py
-    */*_viewsets.py
     */containers.py
     */migrations/*
     models.py

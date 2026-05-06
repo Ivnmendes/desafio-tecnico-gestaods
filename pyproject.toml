@@ -8,6 +8,7 @@ dependencies = [
     "dependency-injector>=4.49.0",
     "django>=5.2.13",
     "django-environ>=0.13.0",
+    "django-filter>=25.2",
     "djangorestframework>=3.17.1",
     "pytest>=9.0.3",
     "pytest-cov>=7.1.0",
