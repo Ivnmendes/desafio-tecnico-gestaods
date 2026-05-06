@@ -3,12 +3,12 @@ source = src
 omit =
     src/manage.py
     src/config_django/*
-    src/*/apps.py
-    src/*/models.py
-    src/*/urls.py
-    src/estoque/infrastructure/django/urls.py
-    src/produto/infrastructure/django/urls.py
-    src/*/infrastructure/django/views/*
+    */apps.py
+    */models.py
+    */urls.py
+    */*_viewsets.py
+    */containers.py
+    */migrations/*
     models.py
     __init__.py
     app.py
