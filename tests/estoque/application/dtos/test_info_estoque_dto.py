@@ -2,7 +2,7 @@ from dataclasses import FrozenInstanceError
 from typing import Any
 from unittest import TestCase
 
-from estoque.application.dtos.InfoEstoqueDTO import InfoEstoqueDTO
+from estoque.application.dtos.info_estoque_dto import InfoEstoqueDTO
 
 
 class TestInfoEstoqueDTO(TestCase):
