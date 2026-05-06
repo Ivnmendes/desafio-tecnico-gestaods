@@ -1,5 +1,3 @@
-from abc import abstractmethod
-
 from estoque.domain.entities import ItemEstoque
 from estoque.domain.repositories import IEstoqueRepository
 
@@ -29,11 +27,10 @@ class MemoryEstoqueRepository(IEstoqueRepository):
             return None
         del self._itens[produto_id]
 
-    @abstractmethod
     def filtrar_itens_estoque_preco(
         self, preco_minimo: float = 0.0, preco_maximo: float | None = None
     ) -> list[ItemEstoque]:
-        # Este método funciona somente com orm
-        # (implementação com persistência em memória
-        # não tem acesso ao preço do produto)
-        pass
+        raise NotImplementedError(
+            "O repositório em memória não suporta filtro por preço, "
+            "pois exige junção com a entidade Produto."
+        )

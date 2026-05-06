@@ -22,7 +22,9 @@ class TestTotalValorEstoque(TestCase):
         repositorio_estoque.obter_todos_itens_estoque.return_value = [item1, item2]
         repositorio_produto.buscar_por_ids.return_value = [produto1, produto2]
 
-        total = TotalValorEstoqueUseCase(repositorio_estoque, repositorio_produto)
+        total = TotalValorEstoqueUseCase(
+            repositorio_estoque, repositorio_produto
+        ).execute()
 
         self.assertEqual(24.0, total)
         repositorio_estoque.obter_todos_itens_estoque.assert_called_once_with()
@@ -35,7 +37,9 @@ class TestTotalValorEstoque(TestCase):
         repositorio_estoque.obter_todos_itens_estoque.return_value = []
         repositorio_produto.buscar_por_ids.return_value = []
 
-        total = TotalValorEstoqueUseCase(repositorio_estoque, repositorio_produto)
+        total = TotalValorEstoqueUseCase(
+            repositorio_estoque, repositorio_produto
+        ).execute()
 
         self.assertEqual(0.0, total)
         repositorio_estoque.obter_todos_itens_estoque.assert_called_once_with()

@@ -18,8 +18,8 @@ class TestAdicionarProdutoAoEstoque(TestCase):
         repositorio_produto.obter_produto.return_value = produto
 
         AdicionarProdutoAoEstoqueUseCase(
-            repositorio_estoque, repositorio_produto, "produto-1", 3
-        )
+            repositorio_estoque, repositorio_produto
+        ).execute("produto-1", 3)
 
         item.ajustar_quantidade.assert_called_once_with(3)
         repositorio_estoque.salvar.assert_called_once_with(item)
@@ -32,8 +32,8 @@ class TestAdicionarProdutoAoEstoque(TestCase):
         repositorio_produto.obter_produto.return_value = Mock()
 
         AdicionarProdutoAoEstoqueUseCase(
-            repositorio_estoque, repositorio_produto, "produto-1", 3
-        )
+            repositorio_estoque, repositorio_produto
+        ).execute("produto-1", 3)
 
         repositorio_estoque.salvar.assert_called_once()
 
@@ -46,5 +46,5 @@ class TestAdicionarProdutoAoEstoque(TestCase):
 
         with self.assertRaises(Exception):
             AdicionarProdutoAoEstoqueUseCase(
-                repositorio_estoque, repositorio_produto, "produto-1", 3
-            )
+                repositorio_estoque, repositorio_produto
+            ).execute("produto-1", 3)

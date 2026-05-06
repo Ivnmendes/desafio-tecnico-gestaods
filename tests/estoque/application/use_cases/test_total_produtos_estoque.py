@@ -19,7 +19,7 @@ class TestTotalProdutosEstoque(TestCase):
 
         repositorio.obter_todos_itens_estoque.return_value = [item1, item2]
 
-        total = TotalProdutosEstoqueUseCase(repositorio)
+        total = TotalProdutosEstoqueUseCase(repositorio).execute()
 
         self.assertEqual(3, total)
         repositorio.obter_todos_itens_estoque.assert_called_once_with()

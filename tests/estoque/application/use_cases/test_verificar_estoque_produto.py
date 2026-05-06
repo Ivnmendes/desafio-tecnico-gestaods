@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from estoque.application.use_cases.verificar_estoque_produto import (
-    verificar_estoque_produto,
+    VerificarEstoqueProdutoUseCase,
 )
 from estoque.domain.exceptions import ProdutoIndisponivelError
 from estoque.domain.repositories import IEstoqueRepository
@@ -28,9 +28,9 @@ class TestVerificarEstoqueProduto(TestCase):
             nome="Produto A", preco=50.0
         )
 
-        resultado = verificar_estoque_produto(
-            self.estoque_repo, self.produto_repo, produto
-        )
+        resultado = VerificarEstoqueProdutoUseCase(
+            self.estoque_repo, self.produto_repo
+        ).execute(produto)
 
         self.assertEqual(resultado.id, produto.id)
         self.assertEqual(resultado.nome, "Produto A")
@@ -43,7 +43,9 @@ class TestVerificarEstoqueProduto(TestCase):
         self.estoque_repo.obter_item_estoque.return_value = None
 
         with self.assertRaises(ProdutoIndisponivelError):
-            verificar_estoque_produto(self.estoque_repo, self.produto_repo, produto)
+            VerificarEstoqueProdutoUseCase(
+                self.estoque_repo, self.produto_repo
+            ).execute(produto)
 
     def test_verificar_estoque_produto_produto_nao_encontrado(self):
 
@@ -54,4 +56,6 @@ class TestVerificarEstoqueProduto(TestCase):
         self.produto_repo.obter_produto.return_value = None
 
         with self.assertRaises(ProdutoIndisponivelError):
-            verificar_estoque_produto(self.estoque_repo, self.produto_repo, produto)
+            VerificarEstoqueProdutoUseCase(
+                self.estoque_repo, self.produto_repo
+            ).execute(produto)

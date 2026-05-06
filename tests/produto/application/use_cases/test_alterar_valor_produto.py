@@ -1,7 +1,10 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from produto.application.use_cases.alterar_valor_produto import alterar_valor_produto
+from estoque.domain.exceptions import ProdutoIndisponivelError
+from produto.application.use_cases.alterar_valor_produto import (
+    AlterarValorProdutoUseCase,
+)
 from produto.domain.entities import Produto
 from produto.domain.repositories import IProdutoRepository
 
@@ -14,7 +17,7 @@ class TestAlterarValorProduto(TestCase):
         produto = Produto(id="produto-1", nome="Produto A", preco=100.0)
         produto_repository.obter_produto.return_value = produto
 
-        alterar_valor_produto("produto-1", 150.0, produto_repository)
+        AlterarValorProdutoUseCase(produto_repository).execute("produto-1", 150.0)
 
         self.assertEqual(produto.preco, 150.0)
         produto_repository.salvar.assert_called_once_with(produto)
@@ -24,7 +27,7 @@ class TestAlterarValorProduto(TestCase):
         produto_repository = Mock(spec=IProdutoRepository)
         produto_repository.obter_produto.return_value = None
 
-        with self.assertRaises(ValueError) as context:
-            alterar_valor_produto("produto-1", 150.0, produto_repository)
+        with self.assertRaises(ProdutoIndisponivelError) as context:
+            AlterarValorProdutoUseCase(produto_repository).execute("produto-1", 150.0)
 
         self.assertEqual(str(context.exception), "Produto não encontrado.")
