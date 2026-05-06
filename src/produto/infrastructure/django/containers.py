@@ -11,16 +11,18 @@ from produto.infrastructure.django.repositories.django_produto_repositorie impor
 
 class Container(containers.DeclarativeContainer):
 
-    repo_produto = providers.Factory(DjangoProdutoRepository)
+    repo_produto = providers.Singleton(DjangoProdutoRepository)
 
-    alterar_valor_produto_use_case: providers.Factory[AlterarValorProdutoUseCase] = (
-        providers.Factory(
+    alterar_valor_produto_use_case: providers.Singleton[AlterarValorProdutoUseCase] = (
+        providers.Singleton(
             AlterarValorProdutoUseCase,
             produto_repo=repo_produto,
         )
     )
 
-    criar_produto_use_case: providers.Factory[CriarProdutoUseCase] = providers.Factory(
-        CriarProdutoUseCase,
-        produto_repo=repo_produto,
+    criar_produto_use_case: providers.Singleton[CriarProdutoUseCase] = (
+        providers.Singleton(
+            CriarProdutoUseCase,
+            produto_repo=repo_produto,
+        )
     )

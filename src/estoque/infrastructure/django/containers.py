@@ -26,40 +26,40 @@ from produto.infrastructure.django.repositories.django_produto_repositorie impor
 
 class Container(containers.DeclarativeContainer):
 
-    repo_estoque = providers.Factory(DjangoEstoqueRepository)
-    repo_produto = providers.Factory(DjangoProdutoRepository)
+    repo_estoque = providers.Singleton(DjangoEstoqueRepository)
+    repo_produto = providers.Singleton(DjangoProdutoRepository)
 
-    adicionar_produtos_use_case: providers.Factory[AdicionarProdutoAoEstoqueUseCase] = (
-        providers.Factory(
-            AdicionarProdutoAoEstoqueUseCase,
-            estoque_repo=repo_estoque,
-            produto_repo=repo_produto,
-        )
+    adicionar_produtos_use_case: providers.Singleton[
+        AdicionarProdutoAoEstoqueUseCase
+    ] = providers.Singleton(
+        AdicionarProdutoAoEstoqueUseCase,
+        estoque_repo=repo_estoque,
+        produto_repo=repo_produto,
     )
 
-    ajustar_quantidade_produto_use_case: providers.Factory[
+    ajustar_quantidade_produto_use_case: providers.Singleton[
         AjustarQuantidadeProdutoUseCase
-    ] = providers.Factory(AjustarQuantidadeProdutoUseCase, estoque_repo=repo_estoque)
+    ] = providers.Singleton(AjustarQuantidadeProdutoUseCase, estoque_repo=repo_estoque)
 
-    filtrar_produtos_estoque_use_case: providers.Factory[
+    filtrar_produtos_estoque_use_case: providers.Singleton[
         FiltrarEstoquePorPrecoUseCase
-    ] = providers.Factory(FiltrarEstoquePorPrecoUseCase, estoque_repo=repo_estoque)
+    ] = providers.Singleton(FiltrarEstoquePorPrecoUseCase, estoque_repo=repo_estoque)
 
-    total_produtos_estoque_use_case: providers.Factory[TotalProdutosEstoqueUseCase] = (
-        providers.Factory(TotalProdutosEstoqueUseCase, estoque_repo=repo_estoque)
-    )
+    total_produtos_estoque_use_case: providers.Singleton[
+        TotalProdutosEstoqueUseCase
+    ] = providers.Singleton(TotalProdutosEstoqueUseCase, estoque_repo=repo_estoque)
 
-    total_valor_estoque_use_case: providers.Factory[TotalValorEstoqueUseCase] = (
-        providers.Factory(
+    total_valor_estoque_use_case: providers.Singleton[TotalValorEstoqueUseCase] = (
+        providers.Singleton(
             TotalValorEstoqueUseCase,
             estoque_repo=repo_estoque,
             produto_repo=repo_produto,
         )
     )
 
-    verificar_estoque_produto_use_case: providers.Factory[
+    verificar_estoque_produto_use_case: providers.Singleton[
         VerificarEstoqueProdutoUseCase
-    ] = providers.Factory(
+    ] = providers.Singleton(
         VerificarEstoqueProdutoUseCase,
         estoque_repo=repo_estoque,
         produto_repo=repo_produto,
