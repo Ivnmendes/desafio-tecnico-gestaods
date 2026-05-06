@@ -53,7 +53,7 @@ def collectstatic():
 
 
 def shell():
-    subprocess.run(["uv", "run", "python", "src/manage.py", "shell"])
+    subprocess.run(["uv", "run", "python", "src/manage.py", "shell_plus"])
 
 
 if __name__ == "__main__":
