@@ -2,11 +2,11 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from produto.infrastructure.django.containers import Container
-from produto.infrastructure.django.viewsets.produto_viewset import ProdutoViewSet
+from produto.infrastructure.django.viewsets.produto_viewsets import ProdutoViewSet
 
 container = Container()
 
-container.wire(modules=["produto.infrastructure.django.viewsets.produto_viewset"])
+container.wire(modules=["produto.infrastructure.django.viewsets.produto_viewsets"])
 
 
 router = DefaultRouter()
