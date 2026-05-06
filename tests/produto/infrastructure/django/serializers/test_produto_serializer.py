@@ -18,9 +18,8 @@ class TestProdutoSerializer(TestCase):
 
     def test_serializer_invalido(self):
         data = {
-            "nome": "Produto Teste",
+            "nome": "",
             "preco": "invalid_price",
-            "descricao": "Descrição do produto teste",
         }
 
         serializer = ProdutoSerializer(data=data)

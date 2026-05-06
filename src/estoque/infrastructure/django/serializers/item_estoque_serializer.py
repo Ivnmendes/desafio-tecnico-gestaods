@@ -15,6 +15,11 @@ class ItemEstoqueCreateUpdateSerializer(serializers.Serializer):
     produto_id = serializers.UUIDField()
     quantidade = serializers.IntegerField()
 
+    def validate_quantidade(self, value):
+        if value < 0:
+            raise serializers.ValidationError("A quantidade não pode ser negativa.")
+        return value
+
 
 class AjustarQuantidadeSerializer(serializers.Serializer):
     quantidade = serializers.IntegerField()
