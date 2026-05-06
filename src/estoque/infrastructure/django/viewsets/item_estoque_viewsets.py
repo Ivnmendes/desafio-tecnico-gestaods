@@ -1,3 +1,5 @@
+from dataclasses import asdict
+
 from dependency_injector.wiring import Provide, inject
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -5,7 +7,12 @@ from rest_framework.response import Response
 
 from estoque.domain.exceptions import ProdutoIndisponivelError
 from estoque.infrastructure.django.containers import Container
+from estoque.infrastructure.django.filters.item_estoque_filters import (
+    FiltroPrecoFilterSet,
+)
+from estoque.infrastructure.django.models import ItemEstoqueModel
 from estoque.infrastructure.django.serializers.item_estoque_serializer import (
+    AjustarQuantidadeSerializer,
     ItemEstoqueCreateUpdateSerializer,
     ItemEstoqueRetrieveSerializer,
 )
@@ -50,25 +57,28 @@ class ItemEstoqueViewSet(viewsets.ViewSet):
 
     def list(self, request):
 
-        preco_min = request.query_params.get("preco_min")
-        preco_max = request.query_params.get("preco_max")
+        filtro = FiltroPrecoFilterSet(
+            data=request.query_params, queryset=ItemEstoqueModel.objects.none()
+        )
 
-        if preco_min is not None or preco_max is not None:
-            kwargs = {}
-            try:
-                if preco_min is not None:
-                    kwargs["preco_minimo"] = float(preco_min)
-                if preco_max is not None:
-                    kwargs["preco_maximo"] = float(preco_max)
+        if not filtro.is_valid():
+            return Response(filtro.errors, status=400)
 
-                itens_estoque = self.filtrar_produtos_estoque_use_case.execute(**kwargs)
-            except ValueError as e:
-                return Response({"error": str(e)}, status=400)
+        dados = filtro.form.cleaned_data
+        print(dados)
+
+        if dados.get("preco_min") is not None or dados.get("preco_max") is not None:
+            preco_min = (
+                dados.get("preco_min") if dados.get("preco_min") is not None else 0.0
+            )
+            preco_max = dados.get("preco_max")
+            itens_estoque = self.filtrar_produtos_estoque_use_case.execute(
+                preco_minimo=preco_min, preco_maximo=preco_max
+            )
         else:
             itens_estoque = self.repo_estoque.obter_todos_itens_estoque()
 
         serializer = ItemEstoqueRetrieveSerializer(itens_estoque, many=True)
-
         return Response(serializer.data)
 
     def create(self, request):
@@ -110,17 +120,19 @@ class ItemEstoqueViewSet(viewsets.ViewSet):
     @action(detail=True, methods=["patch"])
     def ajustar_quantidade(self, request, pk=None):
 
-        if not request.data.get("quantidade"):
-            return Response(
-                {"error": 'O campo "quantidade" é obrigatório.'}, status=400
-            )
+        serializer = AjustarQuantidadeSerializer(data=request.data)
 
-        try:
-            self.ajustar_quantidade_produto_use_case.execute(
-                pk, request.data.get("quantidade")
-            )
-        except ProdutoIndisponivelError as e:
-            return Response({"error": str(e)}, status=404)
+        if serializer.is_valid():
+            try:
+                self.ajustar_quantidade_produto_use_case.execute(
+                    pk, serializer.validated_data["quantidade"]
+                )
+            except ProdutoIndisponivelError as e:
+                return Response({"error": str(e)}, status=404)
+            except ValueError as e:
+                return Response({"error": str(e)}, status=400)
+        else:
+            return Response(serializer.errors, status=400)
 
         item_estoque = self.repo_estoque.obter_item_estoque(pk)
         serializer = ItemEstoqueRetrieveSerializer(item_estoque)
@@ -148,4 +160,4 @@ class ItemEstoqueViewSet(viewsets.ViewSet):
         except ProdutoIndisponivelError as e:
             return Response({"error": str(e)}, status=404)
 
-        return Response({"disponivel": disponivel})
+        return Response({"disponivel": asdict(disponivel)})

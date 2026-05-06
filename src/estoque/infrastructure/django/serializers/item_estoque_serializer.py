@@ -14,3 +14,7 @@ class ItemEstoqueRetrieveSerializer(serializers.Serializer):
 class ItemEstoqueCreateUpdateSerializer(serializers.Serializer):
     produto_id = serializers.UUIDField()
     quantidade = serializers.IntegerField()
+
+
+class AjustarQuantidadeSerializer(serializers.Serializer):
+    quantidade = serializers.IntegerField()
