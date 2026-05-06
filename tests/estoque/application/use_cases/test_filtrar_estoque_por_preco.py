@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from estoque.application.use_cases.filtrar_estoque_por_preco import (
-    filtrar_estoque_por_preco,
+    FiltrarEstoquePorPrecoUseCase,
 )
 
 
@@ -16,7 +16,7 @@ class TestFiltrarEstoquePorPreco(TestCase):
             "produto-2",
         ]
 
-        resultado = filtrar_estoque_por_preco(
+        resultado = FiltrarEstoquePorPrecoUseCase(
             repositorio, preco_minimo=10.0, preco_maximo=50.0
         )
 
@@ -28,7 +28,7 @@ class TestFiltrarEstoquePorPreco(TestCase):
         repositorio = Mock()
 
         with self.assertRaises(ValueError) as context:
-            filtrar_estoque_por_preco(repositorio, preco_minimo=-5.0)
+            FiltrarEstoquePorPrecoUseCase(repositorio, preco_minimo=-5.0)
 
         self.assertTrue(
             "O preço mínimo não pode ser negativo." in str(context.exception)
@@ -39,7 +39,7 @@ class TestFiltrarEstoquePorPreco(TestCase):
         repositorio = Mock()
 
         with self.assertRaises(ValueError) as context:
-            filtrar_estoque_por_preco(repositorio, preco_maximo=-10.0)
+            FiltrarEstoquePorPrecoUseCase(repositorio, preco_maximo=-10.0)
 
         self.assertTrue(
             "O preço máximo não pode ser negativo." in str(context.exception)
@@ -50,7 +50,9 @@ class TestFiltrarEstoquePorPreco(TestCase):
         repositorio = Mock()
 
         with self.assertRaises(ValueError) as context:
-            filtrar_estoque_por_preco(repositorio, preco_minimo=60.0, preco_maximo=50.0)
+            FiltrarEstoquePorPrecoUseCase(
+                repositorio, preco_minimo=60.0, preco_maximo=50.0
+            )
 
         self.assertTrue(
             "O preço mínimo não pode ser maior que o preço máximo."

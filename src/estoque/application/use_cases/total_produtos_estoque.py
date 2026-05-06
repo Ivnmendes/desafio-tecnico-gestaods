@@ -1,8 +1,11 @@
 from estoque.domain.repositories import IEstoqueRepository
 
 
-def total_produtos_estoque(repositorio_estoque: IEstoqueRepository) -> int:
+class TotalProdutosEstoqueUseCase:
 
-    itens = repositorio_estoque.obter_todos_itens_estoque()
+    def __init__(self, estoque_repo: IEstoqueRepository):
+        self.repositorio_estoque = estoque_repo
 
-    return sum(item.quantidade for item in itens)
+    def execute(self):
+        itens = self.repositorio_estoque.obter_todos_itens_estoque()
+        return sum(item.quantidade for item in itens)

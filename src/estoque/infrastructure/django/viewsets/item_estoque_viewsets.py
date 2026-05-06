@@ -3,20 +3,6 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from estoque.application.use_cases.adicionar_produto_ao_estoque import (
-    adicionar_produto_ao_estoque,
-)
-from estoque.application.use_cases.ajustar_quantidade_produto import (
-    ajustar_quantidade_produto,
-)
-from estoque.application.use_cases.filtrar_estoque_por_preco import (
-    filtrar_estoque_por_preco,
-)
-from estoque.application.use_cases.total_produtos_estoque import total_produtos_estoque
-from estoque.application.use_cases.total_valor_estoque import total_valor_estoque
-from estoque.application.use_cases.verificar_estoque_produto import (
-    verificar_estoque_produto,
-)
 from estoque.domain.exceptions import ProdutoIndisponivelError
 from estoque.infrastructure.django.containers import Container
 from estoque.infrastructure.django.serializers.item_estoque_serializer import (
@@ -32,11 +18,35 @@ class ItemEstoqueViewSet(viewsets.ViewSet):
         self,
         repo_estoque=Provide[Container.repo_estoque],
         repo_produto=Provide[Container.repo_produto],
+        adicionar_produto_ao_estoque_use_case=Provide[
+            Container.adicionar_produtos_use_case
+        ],
+        ajustar_quantidade_produto_use_case=Provide[
+            Container.ajustar_quantidade_produto_use_case
+        ],
+        filtrar_produtos_estoque_use_case=Provide[
+            Container.filtrar_produtos_estoque_use_case
+        ],
+        total_produtos_estoque_use_case=Provide[
+            Container.total_produtos_estoque_use_case
+        ],
+        total_valor_estoque_use_case=Provide[Container.total_valor_estoque_use_case],
+        verificar_estoque_produto_use_case=Provide[
+            Container.verificar_estoque_produto_use_case
+        ],
         **kwargs,
     ):
         super().__init__(**kwargs)
         self.repo_estoque = repo_estoque
         self.repo_produto = repo_produto
+        self.adicionar_produto_ao_estoque_use_case = (
+            adicionar_produto_ao_estoque_use_case
+        )
+        self.ajustar_quantidade_produto_use_case = ajustar_quantidade_produto_use_case
+        self.filtrar_produtos_estoque_use_case = filtrar_produtos_estoque_use_case
+        self.total_produtos_estoque_use_case = total_produtos_estoque_use_case
+        self.total_valor_estoque_use_case = total_valor_estoque_use_case
+        self.verificar_estoque_produto_use_case = verificar_estoque_produto_use_case
 
     def list(self, request):
 
@@ -51,7 +61,7 @@ class ItemEstoqueViewSet(viewsets.ViewSet):
                 if preco_max is not None:
                     kwargs["preco_maximo"] = float(preco_max)
 
-                itens_estoque = filtrar_estoque_por_preco(self.repo_estoque, **kwargs)
+                itens_estoque = self.filtrar_produtos_estoque_use_case.execute(**kwargs)
             except ValueError as e:
                 return Response({"error": str(e)}, status=400)
         else:
@@ -68,9 +78,7 @@ class ItemEstoqueViewSet(viewsets.ViewSet):
         if serializer.is_valid():
 
             try:
-                item_estoque = adicionar_produto_ao_estoque(
-                    self.repo_estoque,
-                    self.repo_produto,
+                item_estoque = self.adicionar_produto_ao_estoque_use_case.execute(
                     serializer.validated_data["produto_id"],
                     serializer.validated_data["quantidade"],
                 )
@@ -108,8 +116,8 @@ class ItemEstoqueViewSet(viewsets.ViewSet):
             )
 
         try:
-            ajustar_quantidade_produto(
-                self.repo_estoque, pk, request.data.get("quantidade")
+            self.ajustar_quantidade_produto_use_case.execute(
+                pk, request.data.get("quantidade")
             )
         except ProdutoIndisponivelError as e:
             return Response({"error": str(e)}, status=404)
@@ -121,49 +129,22 @@ class ItemEstoqueViewSet(viewsets.ViewSet):
     @action(detail=False, methods=["get"])
     def total_produtos(self, request):
 
-        total = total_produtos_estoque(self.repo_estoque)
+        total = self.total_produtos_estoque_use_case.execute()
 
         return Response({"total_produtos": total})
 
     @action(detail=False, methods=["get"])
     def total_valor(self, request):
 
-        total = total_valor_estoque(self.repo_estoque, self.repo_produto)
+        total = self.total_valor_estoque_use_case.execute()
 
         return Response({"total_valor": total})
-
-    @action(detail=False, methods=["get"])
-    def filtrar_por_preco(self, request):
-
-        preco_min = request.query_params.get("preco_min")
-        preco_max = request.query_params.get("preco_max")
-
-        if preco_min is None or preco_max is None:
-            return Response(
-                {"error": 'Os parâmetros "preco_min" e "preco_max" são obrigatórios.'},
-                status=400,
-            )
-
-        try:
-            itens_filtrados = filtrar_estoque_por_preco(
-                self.repo_estoque, float(preco_min), float(preco_max)
-            )
-        except ValueError:
-            return Response(
-                {"error": 'Os parâmetros "preco_min" e "preco_max" devem ser números.'},
-                status=400,
-            )
-
-        serializer = ItemEstoqueRetrieveSerializer(itens_filtrados, many=True)
-        return Response(serializer.data)
 
     @action(detail=True, methods=["get"])
     def verificar_estoque(self, request, pk=None):
 
         try:
-            disponivel = verificar_estoque_produto(
-                self.repo_estoque, self.repo_produto, pk
-            )
+            disponivel = self.verificar_estoque_produto_use_case.execute(pk)
         except ProdutoIndisponivelError as e:
             return Response({"error": str(e)}, status=404)
 

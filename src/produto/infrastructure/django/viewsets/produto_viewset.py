@@ -3,9 +3,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from estoque.infrastructure.django.containers import Container
-from produto.application.use_cases.alterar_valor_produto import alterar_valor_produto
-from produto.application.use_cases.criar_produto import criar_produto
+from estoque.domain.exceptions import ProdutoIndisponivelError
+from produto.infrastructure.django.containers import Container
 from produto.infrastructure.django.serializers.produto_serializer import (
     ProdutoSerializer,
 )
@@ -17,10 +16,16 @@ class ProdutoViewSet(viewsets.ViewSet):
     def __init__(
         self,
         repo_produto=Provide[Container.repo_produto],
+        alterar_valor_produto_use_case=Provide[
+            Container.alterar_valor_produto_use_case
+        ],
+        criar_produto_use_case=Provide[Container.criar_produto_use_case],
         **kwargs,
     ):
         super().__init__(**kwargs)
         self.repo_produto = repo_produto
+        self.alterar_valor_produto_use_case = alterar_valor_produto_use_case
+        self.criar_produto_use_case = criar_produto_use_case
 
     def list(self, request):
 
@@ -36,10 +41,9 @@ class ProdutoViewSet(viewsets.ViewSet):
 
         if serializer.is_valid():
 
-            produto = criar_produto(
-                serializer.validated_data["nome"],
-                serializer.validated_data["preco"],
-                self.repo_produto,
+            produto = self.criar_produto_use_case.execute(
+                nome=serializer.validated_data["nome"],
+                preco=serializer.validated_data["preco"],
             )
 
             return Response(ProdutoSerializer(produto).data, status=201)
@@ -61,11 +65,13 @@ class ProdutoViewSet(viewsets.ViewSet):
             return Response({"error": 'O campo "preco" é obrigatório.'}, status=400)
 
         try:
-            produto = alterar_valor_produto(
-                pk, request.data.get("preco"), self.repo_produto
+            produto = self.alterar_valor_produto_use_case.execute(
+                pk, request.data.get("preco")
             )
         except ValueError as e:
             return Response({"error": str(e)}, status=400)
+        except ProdutoIndisponivelError:
+            return Response(status=404)
 
         serializer = ProdutoSerializer(produto)
         return Response(serializer.data)

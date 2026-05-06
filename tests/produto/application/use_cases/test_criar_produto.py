@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from src.produto.application.use_cases.criar_produto import criar_produto
+from src.produto.application.use_cases.criar_produto import CriarProdutoUseCase
 from src.produto.domain.entities import Produto
 from src.produto.domain.repositories import IProdutoRepository
 
@@ -17,7 +17,7 @@ class TestCriarProduto(TestCase):
         nome = "Produto Teste"
         preco = 10.0
 
-        produto_criado = criar_produto(nome, preco, produto_repository)
+        produto_criado = CriarProdutoUseCase(produto_repository).execute(nome, preco)
 
         self.assertIsInstance(produto_criado, Produto)
         self.assertEqual(produto_criado.nome, nome)

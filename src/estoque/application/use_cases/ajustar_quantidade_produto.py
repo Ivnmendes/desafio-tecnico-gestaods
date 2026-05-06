@@ -2,15 +2,18 @@ from estoque.domain.exceptions import ProdutoIndisponivelError
 from estoque.domain.repositories import IEstoqueRepository
 
 
-def ajustar_quantidade_produto(
-    repositorio_estoque: IEstoqueRepository, produto_id: str, qtd: int
-) -> None:
+class AjustarQuantidadeProdutoUseCase:
 
-    item = repositorio_estoque.obter_item_estoque(produto_id)
+    def __init__(self, estoque_repo: IEstoqueRepository):
+        self.repositorio_estoque = estoque_repo
 
-    if not item:
-        raise ProdutoIndisponivelError("Produto não encontrado no estoque!")
+    def execute(self, produto_id: str, qtd: int) -> None:
 
-    item.ajustar_quantidade(qtd)
+        item = self.repositorio_estoque.obter_item_estoque(produto_id)
 
-    repositorio_estoque.salvar(item)
+        if not item:
+            raise ProdutoIndisponivelError("Produto não encontrado no estoque!")
+
+        item.ajustar_quantidade(qtd)
+
+        self.repositorio_estoque.salvar(item)

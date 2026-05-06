@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from estoque.application.use_cases.adicionar_produto_ao_estoque import (
-    adicionar_produto_ao_estoque,
+    AdicionarProdutoAoEstoqueUseCase,
 )
 
 
@@ -17,7 +17,7 @@ class TestAdicionarProdutoAoEstoque(TestCase):
         repositorio_estoque.obter_item_estoque.return_value = item
         repositorio_produto.obter_produto.return_value = produto
 
-        adicionar_produto_ao_estoque(
+        AdicionarProdutoAoEstoqueUseCase(
             repositorio_estoque, repositorio_produto, "produto-1", 3
         )
 
@@ -31,7 +31,7 @@ class TestAdicionarProdutoAoEstoque(TestCase):
         repositorio_estoque.obter_item_estoque.return_value = None
         repositorio_produto.obter_produto.return_value = Mock()
 
-        adicionar_produto_ao_estoque(
+        AdicionarProdutoAoEstoqueUseCase(
             repositorio_estoque, repositorio_produto, "produto-1", 3
         )
 
@@ -45,6 +45,6 @@ class TestAdicionarProdutoAoEstoque(TestCase):
         repositorio_produto.obter_produto.return_value = None
 
         with self.assertRaises(Exception):
-            adicionar_produto_ao_estoque(
+            AdicionarProdutoAoEstoqueUseCase(
                 repositorio_estoque, repositorio_produto, "produto-1", 3
             )

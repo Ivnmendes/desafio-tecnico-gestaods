@@ -2,20 +2,28 @@ from estoque.domain.repositories import IEstoqueRepository
 from produto.domain.repositories import IProdutoRepository
 
 
-def total_valor_estoque(
-    repositorio_estoque: IEstoqueRepository, repositorio_produto: IProdutoRepository
-) -> float:
+class TotalValorEstoqueUseCase:
 
-    itens_estoque = repositorio_estoque.obter_todos_itens_estoque()
+    def __init__(
+        self,
+        estoque_repo: IEstoqueRepository,
+        produto_repo: IProdutoRepository,
+    ):
+        self.repositorio_estoque = estoque_repo
+        self.repositorio_produto = produto_repo
 
-    ids = [item.produto_id for item in itens_estoque]
-    produtos = repositorio_produto.buscar_por_ids(ids)
+    def execute(self):
 
-    mapa_precos = {p.id: float(p.preco) for p in produtos}
+        itens_estoque = self.repositorio_estoque.obter_todos_itens_estoque()
 
-    total = 0.0
-    for item in itens_estoque:
-        preco = mapa_precos.get(item.produto_id, 0)
-        total += preco * item.quantidade
+        ids = [item.produto_id for item in itens_estoque]
+        produtos = self.repositorio_produto.buscar_por_ids(ids)
 
-    return total
+        mapa_precos = {p.id: float(p.preco) for p in produtos}
+
+        total = 0.0
+        for item in itens_estoque:
+            preco = mapa_precos.get(item.produto_id, 0)
+            total += preco * item.quantidade
+
+        return total

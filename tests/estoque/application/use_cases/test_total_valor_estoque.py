@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from estoque.application.use_cases.total_valor_estoque import total_valor_estoque
+from estoque.application.use_cases.total_valor_estoque import TotalValorEstoqueUseCase
 from estoque.domain.entities import ItemEstoque
 from produto.domain.entities import Produto
 
@@ -22,7 +22,7 @@ class TestTotalValorEstoque(TestCase):
         repositorio_estoque.obter_todos_itens_estoque.return_value = [item1, item2]
         repositorio_produto.buscar_por_ids.return_value = [produto1, produto2]
 
-        total = total_valor_estoque(repositorio_estoque, repositorio_produto)
+        total = TotalValorEstoqueUseCase(repositorio_estoque, repositorio_produto)
 
         self.assertEqual(24.0, total)
         repositorio_estoque.obter_todos_itens_estoque.assert_called_once_with()
@@ -35,7 +35,7 @@ class TestTotalValorEstoque(TestCase):
         repositorio_estoque.obter_todos_itens_estoque.return_value = []
         repositorio_produto.buscar_por_ids.return_value = []
 
-        total = total_valor_estoque(repositorio_estoque, repositorio_produto)
+        total = TotalValorEstoqueUseCase(repositorio_estoque, repositorio_produto)
 
         self.assertEqual(0.0, total)
         repositorio_estoque.obter_todos_itens_estoque.assert_called_once_with()

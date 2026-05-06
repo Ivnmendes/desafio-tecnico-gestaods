@@ -1,7 +1,9 @@
 from unittest import TestCase
 from unittest.mock import Mock
 
-from estoque.application.use_cases.total_produtos_estoque import total_produtos_estoque
+from estoque.application.use_cases.total_produtos_estoque import (
+    TotalProdutosEstoqueUseCase,
+)
 from estoque.domain.entities import ItemEstoque
 from produto.domain.entities import Produto
 
@@ -17,7 +19,7 @@ class TestTotalProdutosEstoque(TestCase):
 
         repositorio.obter_todos_itens_estoque.return_value = [item1, item2]
 
-        total = total_produtos_estoque(repositorio)
+        total = TotalProdutosEstoqueUseCase(repositorio)
 
         self.assertEqual(3, total)
         repositorio.obter_todos_itens_estoque.assert_called_once_with()

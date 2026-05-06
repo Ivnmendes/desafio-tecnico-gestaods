@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import Mock
 
 from estoque.application.use_cases.ajustar_quantidade_produto import (
-    ajustar_quantidade_produto,
+    AjustarQuantidadeProduto,
 )
 from estoque.domain.exceptions import ProdutoIndisponivelError
 
@@ -15,7 +15,7 @@ class TestAjustarQuantidadeProduto(TestCase):
         item = Mock()
         repositorio.obter_item_estoque.return_value = item
 
-        ajustar_quantidade_produto(repositorio, "produto-1", 4)
+        AjustarQuantidadeProduto(repositorio, "produto-1", 4)
 
         item.ajustar_quantidade.assert_called_once_with(4)
 
@@ -25,6 +25,6 @@ class TestAjustarQuantidadeProduto(TestCase):
         repositorio.obter_item_estoque.return_value = None
 
         with self.assertRaises(ProdutoIndisponivelError) as context:
-            ajustar_quantidade_produto(repositorio, "produto-inexistente", 2)
+            AjustarQuantidadeProduto(repositorio, "produto-inexistente", 2)
 
         self.assertTrue("Produto não encontrado no estoque!" in str(context.exception))

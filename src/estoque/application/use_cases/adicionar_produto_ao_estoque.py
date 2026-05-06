@@ -4,26 +4,35 @@ from estoque.domain.repositories import IEstoqueRepository
 from produto.domain.repositories import IProdutoRepository
 
 
-def adicionar_produto_ao_estoque(
-    estoque_repo: IEstoqueRepository,
-    estoque_produto: IProdutoRepository,
-    produto_id: str,
-    qtd: int,
-) -> ItemEstoque:
+class AdicionarProdutoAoEstoqueUseCase:
 
-    item = estoque_repo.obter_item_estoque(produto_id)
+    def __init__(
+        self,
+        estoque_repo: IEstoqueRepository,
+        produto_repo: IProdutoRepository,
+    ):
+        self.estoque_repo = estoque_repo
+        self.estoque_produto = produto_repo
 
-    if item:
-        item.ajustar_quantidade(qtd)
-    else:
-        produto = estoque_produto.obter_produto(produto_id)
+    def execute(
+        self,
+        produto_id: str,
+        qtd: int,
+    ) -> ItemEstoque:
 
-        if produto is None:
-            raise ProdutoIndisponivelError("Produto não encontrado!")
+        item = self.estoque_repo.obter_item_estoque(produto_id)
 
-        novo_item = ItemEstoque(produto, quantidade=qtd)
-        item = novo_item
+        if item:
+            item.ajustar_quantidade(qtd)
+        else:
+            produto = self.estoque_produto.obter_produto(produto_id)
 
-    item_estoque = estoque_repo.salvar(item)
+            if produto is None:
+                raise ProdutoIndisponivelError("Produto não encontrado!")
 
-    return item_estoque
+            novo_item = ItemEstoque(produto, quantidade=qtd)
+            item = novo_item
+
+        item_estoque = self.estoque_repo.salvar(item)
+
+        return item_estoque
