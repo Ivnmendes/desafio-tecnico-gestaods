@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from estoque.domain.exceptions import ProdutoIndisponivelError
 from produto.infrastructure.django.containers import Container
 from produto.infrastructure.django.serializers.produto_serializer import (
+    AlterarValorProdutoSerializer,
     ProdutoSerializer,
 )
 
@@ -61,22 +62,24 @@ class ProdutoViewSet(viewsets.ViewSet):
     @action(detail=True, methods=["patch"])
     def atualizar_preco(self, request, pk=None):
 
-        if not request.data.get("preco"):
-            return Response({"error": 'O campo "preco" é obrigatório.'}, status=400)
+        serializer = AlterarValorProdutoSerializer(data=request.data)
 
-        try:
-            produto = self.alterar_valor_produto_use_case.execute(
-                pk, request.data.get("preco")
-            )
-        except ValueError as e:
-            return Response({"error": str(e)}, status=400)
-        except ProdutoIndisponivelError:
-            return Response(status=404)
+        if serializer.is_valid():
+            try:
+                produto = self.alterar_valor_produto_use_case.execute(
+                    pk, request.data.get("preco")
+                )
+            except ProdutoIndisponivelError:
+                return Response(status=404)
 
-        serializer = ProdutoSerializer(produto)
-        return Response(serializer.data)
+            serializer = ProdutoSerializer(produto)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
     def destroy(self, request, pk=None):
 
-        self.repo_produto.remover(pk)
-        return Response(status=204)
+        produto = self.repo_produto.obter_produto(pk)
+        if produto is not None:
+            self.repo_produto.remover(pk)
+            return Response(status=204)
+        return Response(status=404)
