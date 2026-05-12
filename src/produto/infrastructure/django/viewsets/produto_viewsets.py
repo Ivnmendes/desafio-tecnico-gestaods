@@ -1,5 +1,6 @@
 from dependency_injector.wiring import Provide, inject
-from rest_framework import viewsets
+from drf_spectacular.utils import extend_schema, extend_schema_view, inline_serializer
+from rest_framework import serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -11,6 +12,49 @@ from produto.infrastructure.django.serializers.produto_serializer import (
 )
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="Listar produtos",
+        description="Retorna todos os produtos cadastrados no catálogo.",
+        responses={200: ProdutoSerializer(many=True)},
+    ),
+    create=extend_schema(
+        summary="Criar produto",
+        description="Cadastra um novo produto validando as regras de negócio do domínio.",
+        request=ProdutoSerializer,
+        responses={
+            201: ProdutoSerializer,
+            400: inline_serializer(
+                "ErroCriacaoProduto", fields={"detail": serializers.DictField()}
+            ),
+        },
+    ),
+    retrieve=extend_schema(
+        summary="Obter produto",
+        description="Busca os detalhes de um produto específico pelo seu ID (UUID).",
+        responses={200: ProdutoSerializer, 404: None},
+    ),
+    atualizar_preco=extend_schema(
+        summary="Atualizar preço",
+        description="Altera o valor de venda de um produto existente.",
+        request=AlterarValorProdutoSerializer,
+        responses={
+            200: ProdutoSerializer,
+            400: inline_serializer(
+                "ErroValidacaoPreco", fields={"detail": serializers.DictField()}
+            ),
+            404: inline_serializer(
+                "ErroProdutoNaoEncontradoPreco",
+                fields={"error": serializers.CharField()},
+            ),
+        },
+    ),
+    destroy=extend_schema(
+        summary="Remover produto",
+        description="Exclui o produto do sistema.",
+        responses={204: None, 404: None},
+    ),
+)
 class ProdutoViewSet(viewsets.ViewSet):
 
     @inject

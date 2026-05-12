@@ -1,7 +1,13 @@
 from dataclasses import asdict
 
 from dependency_injector.wiring import Provide, inject
-from rest_framework import viewsets
+from drf_spectacular.utils import (
+    OpenApiParameter,
+    extend_schema,
+    extend_schema_view,
+    inline_serializer,
+)
+from rest_framework import serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -18,6 +24,95 @@ from estoque.infrastructure.django.serializers.item_estoque_serializer import (
 )
 
 
+@extend_schema_view(
+    list=extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="preco_min",
+                type=float,
+                location=OpenApiParameter.QUERY,
+                description="Filtro para preço mínimo (>=)",
+            ),
+            OpenApiParameter(
+                name="preco_max",
+                type=float,
+                location=OpenApiParameter.QUERY,
+                description="Filtro para preço máximo (<=)",
+            ),
+        ],
+        responses={
+            200: ItemEstoqueRetrieveSerializer(many=True),
+            400: inline_serializer(
+                "ErroFiltros", fields={"error": serializers.CharField()}
+            ),
+        },
+        description="Lista todos os itens do estoque com filtros de preço",
+    ),
+    create=extend_schema(
+        request=ItemEstoqueCreateUpdateSerializer,
+        responses={
+            201: ItemEstoqueRetrieveSerializer,
+            404: inline_serializer(
+                "ErroProdutoIndisponivel", fields={"error": serializers.CharField()}
+            ),
+            400: inline_serializer(
+                "ErroValidacao", fields={"detail": serializers.DictField()}
+            ),
+        },
+    ),
+    retrieve=extend_schema(
+        responses={200: ItemEstoqueRetrieveSerializer, 404: None},
+        description="Obtém um ItemEstoque pelo id do produto",
+    ),
+    destroy=extend_schema(
+        responses={204: None, 404: None},
+        description="Remove um ItemEstoque do banco pelo id do produto",
+    ),
+    ajustar_quantidade=extend_schema(
+        request=AjustarQuantidadeSerializer,
+        responses={
+            201: ItemEstoqueRetrieveSerializer,
+            400: inline_serializer(
+                "ErroValidacao", fields={"detail": serializers.DictField()}
+            ),
+            404: inline_serializer(
+                "ErroProdutoIndisponivel", fields={"error": serializers.CharField()}
+            ),
+        },
+        description="Altera a quantidade de um item em estoque",
+    ),
+    total_produtos=extend_schema(
+        responses={
+            200: inline_serializer(
+                "TotalProdutos", fields={"total_produtos": serializers.IntegerField()}
+            )
+        }
+    ),
+    total_valor=extend_schema(
+        responses={
+            200: inline_serializer(
+                "TotalValorResponse", fields={"total_valor": serializers.FloatField()}
+            )
+        },
+        description="Retorna o valor financeiro total do estoque somado",
+    ),
+    verificar_estoque=extend_schema(
+        responses={
+            "disponivel": inline_serializer(
+                "InfoEstoqueResponse",
+                fields={
+                    "id": serializers.UUIDField(),
+                    "nome": serializers.CharField(),
+                    "valor_individual": serializers.FloatField(),
+                    "quantidade": serializers.IntegerField(),
+                },
+            ),
+            404: inline_serializer(
+                "ErroProdutoIndisponivel", fields={"error": serializers.CharField()}
+            ),
+        }
+    ),
+)
 class ItemEstoqueViewSet(viewsets.ViewSet):
 
     @inject
@@ -160,4 +255,4 @@ class ItemEstoqueViewSet(viewsets.ViewSet):
         except ProdutoIndisponivelError as e:
             return Response({"error": str(e)}, status=404)
 
-        return Response({"disponivel": asdict(disponivel)})
+        return Response({"disponivel": asdict(disponivel)}, status=200)
