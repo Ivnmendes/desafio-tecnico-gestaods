@@ -160,7 +160,6 @@ class ItemEstoqueViewSet(viewsets.ViewSet):
             return Response(filtro.errors, status=400)
 
         dados = filtro.form.cleaned_data
-        print(dados)
 
         if dados.get("preco_min") is not None or dados.get("preco_max") is not None:
             preco_min = (
