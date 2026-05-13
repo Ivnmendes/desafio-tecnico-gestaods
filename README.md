@@ -236,7 +236,7 @@ Cobrem cenários positivos e negativos de regras de negócio, incluindo validaç
 
 ## Arquitetura
 
-O projeto segue a arquitetura de **Clean Architecture** com as seguintes camadas:
+O projeto segue a arquitetura de ***Clean Architecture*** com as seguintes camadas:
 
 ### `domain/`
 - **Entidades**: Regras de negócio fundamentais
